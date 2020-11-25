@@ -260,7 +260,7 @@ header {
             left: 50%;
             // margin: -250px 0 0 -250px;
             transform: translate(-50%, -50%);
-            opacity: 30%;
+            opacity: 0.3;
             height: 500px;
             width: 500px;
             background-image: url(~assets/img/board/map.png);
@@ -289,7 +289,7 @@ header {
             &::after {
                 content: "";
                 position: absolute;
-                opacity: 60%;
+                opacity: 0.6;
                 height: 500px;
                 width: 500px;
                 background-image: url(~assets/img/board/lbx.png);

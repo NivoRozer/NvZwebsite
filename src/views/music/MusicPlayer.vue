@@ -1,8 +1,31 @@
 <template>
     <div class="music-player">
         <div class="player-container frosted-glass">
-            <h2>Music Player</h2>
-            <div class="music-list">
+            <header>
+                <h2>Music Player</h2>
+                <search @search="search" />
+            </header>
+            <div class="player-body">
+                <nav class="player-menu">
+                    <div
+                        v-for="item in menuList"
+                        :key="item.id"
+                        @click="menuClick(item.path)"
+                        :class="{ active: item.path === defaultIndex }"
+                    >
+                        {{ item.name }}
+                    </div>
+                    <!-- <div>最新MV</div> -->
+                    <!-- <router-link to="/music/discovery">发现音乐</router-link>
+                    <router-link to="/music/search">推荐歌单</router-link>
+                    <router-link to="">最新音乐</router-link> -->
+                </nav>
+                <div class="player-content">
+                    <router-view></router-view>
+                </div>
+            </div>
+            <footer></footer>
+            <!-- <div class="music-list">
                 <ul>
                     <li v-for="(item, id) in musicList" :key="id">
                         <div class="music-list-name">
@@ -22,22 +45,43 @@
                 :musicInfo="musicInfo"
                 @lastMusic="lastMusic"
                 @nextMusic="nextMusic"
-            ></music-controler>
+            ></music-controler> -->
         </div>
     </div>
 </template>
 
 <script>
 import MusicControler from "@/components/common/MusicControler";
+import Search from "./childComps/Search";
+
 export default {
     name: "MusicPlayer",
     components: {
         MusicControler,
+        Search,
     },
     data() {
         return {
             index: 0,
             musicInfo: "",
+            defaultIndex: "",
+            menuList: [
+                {
+                    id: "001",
+                    name: "发现音乐",
+                    path: "discovery",
+                },
+                {
+                    id: "002",
+                    name: "推荐歌单",
+                    path: "search",
+                },
+                {
+                    id: "003",
+                    name: "最新音乐",
+                    path: "",
+                },
+            ],
             musicList: [
                 // {
                 //     id:'001',
@@ -78,9 +122,34 @@ export default {
     },
     created() {
         this.musicInfo = this.musicList[0];
+        this.defaultMenuActive();
     },
     mounted() {},
     methods: {
+        menuClick(path) {
+            if (path && path !== this.defaultIndex) {
+                this.$router.push(path);
+                this.defaultIndex = path;
+            } else {
+                console.log("暂无项目路径");
+            }
+        },
+        defaultMenuActive() {
+            this.defaultIndex = this.$route.path.split("/").reverse()[0];
+            console.log(this.defaultIndex);
+        },
+        // 接收搜索框组件传出的事件和参数
+        search(keywords, type) {
+            // console.log("外部事件" + keywords + type);
+            // this.$router.push("search/" + keywords);
+            this.$router.push({
+                name: "SearchDetail",
+                query: {
+                    keywords: keywords,
+                    type: type,
+                },
+            });
+        },
         lastMusic() {
             if (this.index === 0) {
                 this.index = this.musicList.length - 1;
@@ -116,15 +185,73 @@ export default {
     background: url(~@/assets/img/4dfce2edfaaaffbdc6339399cc340997.png) center
         center / cover no-repeat fixed;
 }
+
 .player-container {
-    padding: 20px 0;
+    padding: 20px;
+    height: 100%;
     border-radius: 10px;
     box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 0 0 20px rgb(0, 0, 0, 0.2);
     transition: all 0.5s ease;
-    h2 {
+    // display: grid;
+    // grid-template-rows: 50px auto 50px;
+    header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         margin: 0 0 20px 0;
     }
+    .player-body {
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+        .player-menu {
+            div {
+                position: relative;
+                cursor: pointer;
+                height: 40px;
+                line-height: 40px;
+                padding: 0 10px;
+                &:hover {
+                    text-shadow: 0 0 4px #ddd8;
+                    // background: ;
+                    // color: #333;
+                }
+            }
+            // 以下为菜单跟随滚动条效果
+            div::before {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 0;
+                border-right: 2px solid #ddd8;
+                transition: 0.2s all linear;
+            }
+            div:hover::before {
+                height: 100%;
+                top: 0;
+                transition-delay: 0.1s;
+            }
+            div:hover ~ div::before {
+                top: 0;
+            }
+            .active {
+                border-right: 2px solid #fff8;
+                box-shadow: 2px 0 2px #fff8;
+                transition: 0.2s all ease;
+                &::before {
+                    border-right: none;
+                }
+            }
+        }
+        .player-content {
+            padding: 10px;
+            height: 100%;
+            height: calc(100vh - 170px);
+            overflow-y: auto;
+        }
+    }
 }
+
 .frosted-glass {
     z-index: 10;
     overflow: hidden; // 为防止效果不超出 content 的范围

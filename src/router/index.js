@@ -35,10 +35,23 @@ const routes = [
     {
         path: '/music',
         name: 'MusicPlayer',
-        component: () => import('../views/MusicPlayer.vue'),
+        component: () => import('../views/music/MusicPlayer.vue'),
         meta: {
             title: '音乐播放器'
-        }
+        },
+        redirect: '/music/discovery',
+        children: [
+            {
+                path: 'search/:keywords?',
+                name: 'SearchDetail',
+                component: () => import('views/music/childComps/SearchDetail.vue'),
+            },
+            {
+                path: 'discovery',
+                name: 'Discovery',
+                component: () => import('views/music/childComps/Discovery.vue'),
+            }
+        ]
     },
     {
         path: '/board',

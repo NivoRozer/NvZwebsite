@@ -132,8 +132,6 @@ export default {
         box-shadow: 0 0 2px #0008;
     }
 }
-.project-info {
-}
 
 .active {
     color: red;
