@@ -2,7 +2,7 @@
     <div class="search-detail">
         <header>
             <span>搜索</span>
-            <span>{{ keywords }}</span>
+            <strong>{{ keywords }}</strong>
             <span>找到{{ searchCount }}个结果</span>
             <nav class="navlist">
                 <ul>
@@ -14,6 +14,20 @@
         </header>
         <body class="music-list">
             <ul>
+                <li>
+                    <div>
+                        <span>音乐标题</span>
+                    </div>
+                    <div>
+                        <span>艺术家</span>
+                    </div>
+                    <div>
+                        <span>专辑</span>
+                    </div>
+                    <div>
+                        <span>时长</span>
+                    </div>
+                </li>
                 <li v-for="item in searchResult" :key="item.id">
                     <div class="music-list-name">
                         <span>{{ item.name | filterNull }}</span>
@@ -24,11 +38,21 @@
                     <div class="music-list-album">
                         <span>{{ item.album.name | filterNull }}</span>
                     </div>
+                    <div>
+                        <span>{{
+                            item.duration | filterNull | filterDuration
+                        }}</span>
+                    </div>
                 </li>
             </ul>
         </body>
         <footer>
-            <h2>分页</h2>
+            <pagination
+                @pageTurn="pageTurn"
+                :total="searchCount"
+                :pageSize="limit"
+                :curPage="curPage"
+            />
         </footer>
     </div>
 </template>
@@ -36,12 +60,19 @@
 <script>
 import { search } from "network/search";
 
+import Pagination from "components/common/button/Pagination";
+
 export default {
     name: "SearchDetail",
+    components: {
+        Pagination,
+    },
     data() {
         return {
             keywords: "",
             type: 1,
+            curPage: 1,
+            limit: 30,
             searchCount: "",
             searchResult: "",
         };
@@ -50,6 +81,19 @@ export default {
         //过滤空数据
         filterNull(item) {
             return (item = item ? item : "暂无");
+        },
+        //过滤歌曲时长
+        filterDuration(time) {
+            let duration = time;
+            let min = parseInt(duration / 1000 / 60);
+            if (min < 10) {
+                min = "0" + min;
+            }
+            let sec = parseInt((duration / 1000) % 60);
+            if (sec < 10) {
+                sec = "0" + sec;
+            }
+            return `${min}:${sec}`;
         },
     },
     created() {
@@ -67,17 +111,30 @@ export default {
         },
     },
     methods: {
-        search(keywords, type) {
+        // 请求歌曲查询接口
+        search(keywords, type, page) {
             // console.log();
-            search(keywords, type)
+            if (!page) {
+                this.curPage = 1;
+                page = 1;
+            }
+            let limit = this.limit;
+            let offset = (page - 1) * limit;
+            search(keywords, type, offset)
                 .then((result) => {
                     console.log(result.result);
                     this.searchCount = result.result.songCount;
+                    // this.searchCount = result.result.songs.length;
                     this.searchResult = result.result.songs;
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        // 跳页
+        pageTurn(page) {
+            this.search(this.keywords, this.type, page);
+            this.curPage = page;
         },
     },
 };
@@ -100,11 +157,15 @@ export default {
             }
         }
     }
+    // body {
+    // }
     footer {
         height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    body {
-    }
+
     .music-list {
         overflow-y: auto;
         li {
@@ -143,7 +204,7 @@ export default {
                 line-height: 40px;
             }
         }
-        li:hover {
+        li:not(:first-child):hover {
             color: #eee;
             background-color: #fff2;
             cursor: pointer;

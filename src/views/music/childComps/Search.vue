@@ -80,6 +80,7 @@ export default {
         },
     },
     methods: {
+        // 防抖
         debounce(fn, delay) {
             let timer = null;
             return function () {
@@ -90,6 +91,7 @@ export default {
             };
         },
         initSearch() {
+            // 请求默认搜索数据
             searchDefault()
                 .then((result) => {
                     console.log(result.data);
@@ -99,6 +101,8 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+
+            // 请求热门搜索数据
             searchHot()
                 .then((result) => {
                     console.log(result.result);
@@ -109,6 +113,7 @@ export default {
                 });
         },
         searchSuggest() {
+            // 请求推荐搜索数据
             if (this.inputValue) {
                 searchSuggest(this.inputValue)
                     .then((result) => {
@@ -141,16 +146,34 @@ export default {
                 //         .catch((err) => {
                 //             console.log(err);
                 //         });
-                this.$emit("search", keywords, type);
+
+                // this.$emit("search", keywords, type);
+                this.$router.push({
+                    name: "SearchDetail",
+                    query: {
+                        keywords: keywords,
+                        type: type,
+                    },
+                });
             } else if (this.realkeyword) {
+                // 如果搜索框没有输入内容，且返回的接口有推荐搜索值，则查询推荐数据
                 let keywords = this.realkeyword;
                 this.inputValue = keywords;
-                this.$emit("search", keywords, type);
+                // this.$emit("search", keywords, type);
+                this.$router.push({
+                    name: "SearchDetail",
+                    query: {
+                        keywords: keywords,
+                        type: type,
+                    },
+                });
             }
         },
+        // 搜索框激活
         searchActive() {
             this.isShow = true;
         },
+        // 搜索框不激活
         searchDisactive() {
             this.isShow = false;
         },

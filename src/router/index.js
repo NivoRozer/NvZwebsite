@@ -50,6 +50,11 @@ const routes = [
                 path: 'discovery',
                 name: 'Discovery',
                 component: () => import('views/music/childComps/Discovery.vue'),
+            },
+            {
+                path: 'playlists',
+                name: 'SuggestPlaylists',
+                component: () => import('views/music/childComps/SuggestPlaylists.vue'),
             }
         ]
     },

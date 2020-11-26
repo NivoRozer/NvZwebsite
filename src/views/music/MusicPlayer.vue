@@ -3,7 +3,8 @@
         <div class="player-container frosted-glass">
             <header>
                 <h2>Music Player</h2>
-                <search @search="search" />
+                <!-- <search @search="search" /> -->
+                <search />
             </header>
             <div class="player-body">
                 <nav class="player-menu">
@@ -74,7 +75,7 @@ export default {
                 {
                     id: "002",
                     name: "推荐歌单",
-                    path: "search",
+                    path: "playlists",
                 },
                 {
                     id: "003",
@@ -139,17 +140,17 @@ export default {
             console.log(this.defaultIndex);
         },
         // 接收搜索框组件传出的事件和参数
-        search(keywords, type) {
-            // console.log("外部事件" + keywords + type);
-            // this.$router.push("search/" + keywords);
-            this.$router.push({
-                name: "SearchDetail",
-                query: {
-                    keywords: keywords,
-                    type: type,
-                },
-            });
-        },
+        // search(keywords, type) {
+        //     // console.log("外部事件" + keywords + type);
+        //     // this.$router.push("search/" + keywords);
+        //     this.$router.push({
+        //         name: "SearchDetail",
+        //         query: {
+        //             keywords: keywords,
+        //             type: type,
+        //         },
+        //     });
+        // },
         lastMusic() {
             if (this.index === 0) {
                 this.index = this.musicList.length - 1;
@@ -245,9 +246,11 @@ export default {
         }
         .player-content {
             padding: 10px;
-            height: 100%;
+            border-radius: 4px;
             height: calc(100vh - 170px);
             overflow-y: auto;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
         }
     }
 }

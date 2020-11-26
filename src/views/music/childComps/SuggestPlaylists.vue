@@ -1,8 +1,8 @@
 <template>
-    <div class="discovery">
+    <div class="suggest-playlists">
         <div class="top">轮播图</div>
         <div class="mid">
-            推荐歌单
+            精品歌单
             <ul>
                 <li>1</li>
                 <li>2</li>
@@ -46,26 +46,24 @@
                 <li>20</li>
             </ul>
         </div>
-        <div class="bot">
-            最新音乐
-        </div>
+        <div class="bot">最新音乐</div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Discovery",
+    name: "SuggestPlaylists",
 };
 </script>
 
 <style lang="scss" scoped>
-// .discovery {
+.suggest-playlists {
     // background-color: #ddd8;
     // height: 100vh;
     // display: grid;
     // grid-template-rows: 50px 1fr 30px;
     // .mid{
-        // overflow-y: auto;
+    // overflow-y: auto;
     // }
-// }
+}
 </style>

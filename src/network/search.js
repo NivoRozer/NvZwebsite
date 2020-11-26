@@ -22,13 +22,13 @@ export function searchSuggest(keywords) {
     })
 };
 
-export function search(keywords, type, limit, offset) {
+export function search(keywords, type, offset) {
     return request({
         url: '/search',
         params: {
             keywords,
             type,
-            limit,
+            // limit,
             offset
         }
     })
