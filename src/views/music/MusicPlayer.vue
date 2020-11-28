@@ -236,11 +236,13 @@ export default {
                 top: 0;
             }
             .active {
-                border-right: 2px solid #fff8;
+                // border-right: 2px solid #fff8;
                 box-shadow: 2px 0 2px #fff8;
                 transition: 0.2s all ease;
                 &::before {
-                    border-right: none;
+                    // border-right: none;
+                    height: 100%;
+                    top: 0;
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="pagination" v-show="pageNum !== 1">
+    <div class="pagination" v-show="pageNum && pageNum !== 1">
         <!-- <button>&lt;</button> -->
         <ul>
             <li @click="lastPage(curPage - 1)">&lt;</li>
@@ -7,7 +7,7 @@
                 v-for="(item, index) in pageArray"
                 :key="index"
                 :class="{ active: item === curPage }"
-                @click="pageTurn(item, index)"
+                @click="pageTurn(item)"
             >
                 <!-- <span v-text="showText(item)"></span> -->
                 {{ item }}
@@ -36,7 +36,9 @@ export default {
         // this.showText();
     },
     watch: {
+        // 监听total更新页面总数
         total() {
+            // this.$forceUpdate();
             this.initPage(this.pageSize, this.total);
             this.showText();
         },
@@ -44,7 +46,11 @@ export default {
             this.showText();
         },
     },
-    computed: {},
+    computed: {
+        // initPageNum() {
+        //     return (this.pageNum = Math.ceil(total / pageSize));
+        // },
+    },
     methods: {
         // 初始化页数（用computed更好，下次再改）
         initPage(pageSize, total) {
@@ -75,7 +81,9 @@ export default {
         },
         // 发射页码点击事件
         pageTurn(page) {
-            this.$emit("pageTurn", page);
+            if (page != "...") {
+                this.$emit("pageTurn", page);
+            }
             console.log(page);
             console.log(this.pageNum);
         },

@@ -1,16 +1,19 @@
 <template>
     <div class="search-detail">
         <header>
-            <span>搜索</span>
-            <strong>{{ keywords }}</strong>
-            <span>找到{{ searchCount }}个结果</span>
-            <nav class="navlist">
+            <div class="search-result">
+                <span>搜索</span>
+                <strong>{{ keywords }}</strong>
+                <span>找到{{ searchCount }}个结果</span>
+            </div>
+            <!-- <nav class="navlist">
                 <ul>
-                    <li>歌曲</li>
-                    <li>歌单</li>
-                    <li>专辑</li>
+                    <li :class="{ active: type === 1 }">歌曲</li>
+                    <li :class="{ active: type === 10 }">专辑</li>
+                    <li :class="{ active: type === 1000 }">歌单</li>
                 </ul>
-            </nav>
+            </nav> -->
+            <nav-bar :titles="navData"></nav-bar>
         </header>
         <body class="music-list">
             <ul>
@@ -61,11 +64,13 @@
 import { search } from "network/search";
 
 import Pagination from "components/common/button/Pagination";
+import NavBar from "components/common/button/NavBar";
 
 export default {
     name: "SearchDetail",
     components: {
         Pagination,
+        NavBar,
     },
     data() {
         return {
@@ -75,6 +80,11 @@ export default {
             limit: 30,
             searchCount: "",
             searchResult: "",
+            navData: [
+                { name: "歌曲", type: "1" },
+                { name: "专辑", type: "10" },
+                { name: "歌单", type: "1000" },
+            ],
         };
     },
     filters: {
@@ -105,6 +115,7 @@ export default {
     },
     mounted() {},
     watch: {
+        // 监听路由发起请求
         $route() {
             this.keywords = this.$route.query.keywords;
             this.search(this.keywords, this.type);
@@ -120,6 +131,7 @@ export default {
             }
             let limit = this.limit;
             let offset = (page - 1) * limit;
+
             search(keywords, type, offset)
                 .then((result) => {
                     console.log(result.result);
@@ -143,19 +155,61 @@ export default {
 <style lang="scss" scoped>
 .search-detail {
     display: grid;
-    grid-template-rows: 50px 1fr 30px;
+    grid-template-rows: auto 1fr 30px;
     position: relative;
     header {
-        height: 50px;
-        .navlist {
-            ul {
-                display: flex;
-                justify-content: flex-start;
-                li {
-                    margin-right: 10px;
-                }
+        // height: 50px;
+        .search-result {
+            padding: 5px;
+            margin: 0 0 10px 0;
+            strong {
+                font-size: 30px;
+                margin: 0 5px;
             }
         }
+        // .navlist {
+        //     ul {
+        //         display: flex;
+        //         justify-content: flex-start;
+        //         li {
+        //             // margin-right: 10px;
+        //             cursor: pointer;
+        //             position: relative;
+        //             padding: 5px;
+        //             &:hover {
+        //                 text-shadow: 0 0 4px #ddd8;
+        //             }
+        //         }
+        //         // 以下为菜单跟随滚动条效果
+        //         li::before {
+        //             content: "";
+        //             // display:block;
+        //             position: absolute;
+        //             width: 0;
+        //             bottom: 0;
+        //             left: 100%;
+        //             // height: 0;
+        //             border-bottom: 2px solid #ddd8;
+        //             transition: 0.2s all linear;
+        //         }
+        //         li:hover::before {
+        //             left: 0;
+        //             width: 100%;
+        //             transition-delay: 0.1s;
+        //         }
+        //         li:hover ~ li::before {
+        //             left: 0;
+        //         }
+        //         .active {
+        //             border-bottom: 2px solid #fff8;
+        //             // box-shadow: 2px 0 2px #fff8;
+        //             transition: 0.2s all ease;
+        //             &::before {
+        //                 border-bottom: none;
+        //             }
+        //         }
+        //     }
+        // }
     }
     // body {
     // }
