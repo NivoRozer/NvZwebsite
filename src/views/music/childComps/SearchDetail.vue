@@ -13,10 +13,14 @@
                     <li :class="{ active: type === 1000 }">歌单</li>
                 </ul>
             </nav> -->
-            <nav-bar :titles="navData"></nav-bar>
+            <nav-bar
+                :titles="navData"
+                :curType="type"
+                @navClick="navClick"
+            ></nav-bar>
         </header>
         <body class="music-list">
-            <ul>
+            <!-- <ul>
                 <li>
                     <div>
                         <span>音乐标题</span>
@@ -47,7 +51,8 @@
                         }}</span>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
+            <component :is="navIndex" :searchResult="searchResult"></component>
         </body>
         <footer>
             <pagination
@@ -63,14 +68,20 @@
 <script>
 import { search } from "network/search";
 
-import Pagination from "components/common/button/Pagination";
 import NavBar from "components/common/button/NavBar";
+import SearchSongs from "./search/SearchSongs";
+import SearchAlbums from "./search/SearchAlbums";
+import SearchPlaylists from "./search/SearchPlaylists";
+import Pagination from "components/common/button/Pagination";
 
 export default {
     name: "SearchDetail",
     components: {
-        Pagination,
         NavBar,
+        SearchSongs,
+        SearchAlbums,
+        SearchPlaylists,
+        Pagination,
     },
     data() {
         return {
@@ -80,37 +91,43 @@ export default {
             limit: 30,
             searchCount: "",
             searchResult: "",
+            navIndex: "SearchSongs",
             navData: [
-                { name: "歌曲", type: "1" },
-                { name: "专辑", type: "10" },
-                { name: "歌单", type: "1000" },
+                { name: "歌曲", type: 1 },
+                { name: "专辑", type: 10 },
+                { name: "歌单", type: 1000 },
             ],
         };
     },
-    filters: {
-        //过滤空数据
-        filterNull(item) {
-            return (item = item ? item : "暂无");
-        },
-        //过滤歌曲时长
-        filterDuration(time) {
-            let duration = time;
-            let min = parseInt(duration / 1000 / 60);
-            if (min < 10) {
-                min = "0" + min;
-            }
-            let sec = parseInt((duration / 1000) % 60);
-            if (sec < 10) {
-                sec = "0" + sec;
-            }
-            return `${min}:${sec}`;
-        },
-    },
+    // filters: {
+    //     //过滤空数据
+    //     filterNull(item) {
+    //         return (item = item ? item : "暂无");
+    //     },
+    //     //过滤歌曲时长
+    //     filterDuration(time) {
+    //         let duration = time;
+    //         let min = parseInt(duration / 1000 / 60);
+    //         if (min < 10) {
+    //             min = "0" + min;
+    //         }
+    //         let sec = parseInt((duration / 1000) % 60);
+    //         if (sec < 10) {
+    //             sec = "0" + sec;
+    //         }
+    //         return `${min}:${sec}`;
+    //     },
+    // },
     created() {
         this.keywords = this.$route.query.keywords;
+        this.type = this.$route.query.type
+            ? parseInt(this.$route.query.type)
+            : 1;
+        this.initSearchType(this.type);
 
         console.log(this.keywords);
         console.log(this.type);
+
         this.search(this.keywords, this.type);
     },
     mounted() {},
@@ -118,10 +135,31 @@ export default {
         // 监听路由发起请求
         $route() {
             this.keywords = this.$route.query.keywords;
+            this.type = this.$route.query.type
+                ? parseInt(this.$route.query.type)
+                : 1;
+
+            console.log(this.keywords);
+            console.log(this.type);
+
             this.search(this.keywords, this.type);
         },
     },
     methods: {
+        // 根据type动态切换子组件
+        initSearchType(type) {
+            switch (type) {
+                case 1:
+                    this.navIndex = "SearchSongs";
+                    break;
+                case 10:
+                    this.navIndex = "SearchAlbums";
+                    break;
+                case 1000:
+                    this.navIndex = "SearchPlaylists";
+                    break;
+            }
+        },
         // 请求歌曲查询接口
         search(keywords, type, page) {
             // console.log();
@@ -135,13 +173,38 @@ export default {
             search(keywords, type, offset)
                 .then((result) => {
                     console.log(result.result);
-                    this.searchCount = result.result.songCount;
+                    switch (type) {
+                        case 1:
+                            console.log(result.result.songCount);
+                            this.searchCount = result.result.songCount;
+                            this.searchResult = result.result.songs;
+                            break;
+                        case 10:
+                            console.log(result.result.albumCount);
+                            this.searchCount = result.result.albumCount;
+                            this.searchResult = result.result.albums;
+                            break;
+                        case 1000:
+                            console.log(result.result.playlistCount);
+                            this.searchCount = result.result.playlistCount;
+                            this.searchResult = result.result.playlists;
+                            break;
+                        default:
+                            break;
+                    }
+                    // 根据type动态切换子组件
+                    this.initSearchType(this.type);
                     // this.searchCount = result.result.songs.length;
-                    this.searchResult = result.result.songs;
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        navClick(type) {
+            this.type = type;
+            this.search(this.keywords, this.type);
+            // this.initSearchType(this.type);
+
         },
         // 跳页
         pageTurn(page) {

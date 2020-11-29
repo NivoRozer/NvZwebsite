@@ -22,17 +22,37 @@ export default {
                 return [];
             },
         },
+        curType: {
+            type: Number,
+            default() {
+                return 1;
+            },
+        },
     },
     data() {
         return {
             currentIndex: 0,
         };
     },
+    created() {
+        this.initNav(this.titles, this.curType);
+    },
+    watch: {
+        curType() {
+            this.initNav(this.titles, this.curType);
+        },
+    },
     methods: {
-        itemClick(type, index) {
-            console.log(type);
+        // 接收外部的curType来初始化nav的选中状态
+        initNav(titles, type) {
+            let index = titles.findIndex((item) => item.type === type);
             this.currentIndex = index;
-            // this.$emit("navClick", type);
+        },
+        itemClick(type, index) {
+            if (index !== this.currentIndex) {
+                this.currentIndex = index;
+                this.$emit("navClick", type);
+            }
         },
     },
 };
