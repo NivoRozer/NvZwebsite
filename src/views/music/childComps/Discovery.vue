@@ -1,6 +1,9 @@
 <template>
     <div class="discovery">
-        <div class="top">轮播图</div>
+        <div class="top">
+            <home-swiper :banners="banners" />
+            <music-swiper :banners="banners" />
+        </div>
         <div class="mid">
             推荐歌单
             <ul>
@@ -46,26 +49,62 @@
                 <li>20</li>
             </ul>
         </div>
-        <div class="bot">
-            最新音乐
-        </div>
+        <div class="bot">最新音乐</div>
     </div>
 </template>
 
 <script>
+import { getBanner } from "network/home";
+
+import HomeSwiper from "./HomeSwiper";
+import MusicSwiper from "components/common/swiper/MusicSwiper";
+
 export default {
     name: "Discovery",
+    components: {
+        HomeSwiper,
+        MusicSwiper,
+    },
+    data() {
+        return {
+            banners: [],
+        };
+    },
+    created() {
+        this.getHomeMultidata();
+    },
+    methods: {
+        getHomeMultidata() {
+            //1.请求多个数据
+            getBanner()
+                .then((result) => {
+                    console.log(result.banners);
+                    this.banners = result.banners;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+    },
 };
 </script>
 
 <style lang="scss" scoped>
-// .discovery {
+.discovery {
     // background-color: #ddd8;
     // height: 100vh;
     // display: grid;
     // grid-template-rows: 50px 1fr 30px;
-    // .mid{
-        // overflow-y: auto;
-    // }
-// }
+    position: relative;
+    .top {
+        
+        .music-swiper {
+            // position: absolute;
+            // width: 500px;
+        }
+    }
+    .mid {
+        overflow-y: auto;
+    }
+}
 </style>

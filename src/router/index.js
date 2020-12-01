@@ -24,14 +24,14 @@ const routes = [
             title: '入口'
         }
     },
-    {
-        path: '/resume',
-        name: 'Resume',
-        component: () => import('../views/resume/Resume.vue'),
-        meta: {
-            title: '个人介绍'
-        }
-    },
+    // {
+    //     path: '/resume',
+    //     name: 'Resume',
+    //     component: () => import('../views/resume/Resume.vue'),
+    //     meta: {
+    //         title: '个人介绍'
+    //     }
+    // },
     {
         path: '/music',
         name: 'MusicPlayer',

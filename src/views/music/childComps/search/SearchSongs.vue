@@ -1,7 +1,7 @@
 <template>
     <div class="search-songs">
         <ul>
-            <li>
+            <li class="song-list-title">
                 <div>
                     <span>音乐标题</span>
                 </div>
@@ -16,13 +16,13 @@
                 </div>
             </li>
             <li v-for="item in searchResult" :key="item.id">
-                <div class="music-list-name">
+                <div class="song-list-name">
                     <span>{{ item.name | filterNull }}</span>
                 </div>
-                <div class="music-list-artist">
+                <div class="song-list-artist">
                     <span>{{ item.artists[0].name | filterNull }}</span>
                 </div>
-                <div class="music-list-album">
+                <div class="song-list-album">
                     <span>{{ item.album.name | filterNull }}</span>
                 </div>
                 <div>
@@ -55,8 +55,7 @@ export default {
             // songs: this.searchResult,
         };
     },
-    created() {
-    },
+    created() {},
     filters: {
         //过滤空数据
         filterNull(item) {
@@ -76,9 +75,7 @@ export default {
             return `${min}:${sec}`;
         },
     },
-    methods: {
-        
-    },
+    methods: {},
 };
 </script>
 
@@ -106,16 +103,16 @@ export default {
         div:hover {
             text-shadow: 0 0 2px #fff8;
         }
-        // .music-list-name {
+        // .song-list-name {
         // min-width: 200px;
         // line-height: 30px;
         // grid-area: a;
         // }
-        .music-list-artist {
+        .song-list-artist {
             font-size: 14px;
             line-height: 40px;
         }
-        .music-list-album {
+        .song-list-album {
             font-size: 14px;
             line-height: 40px;
         }
@@ -132,6 +129,10 @@ export default {
         bottom: 0;
         border-bottom: 1px solid #fff2;
         box-shadow: 0 0 1px #fff8;
+    }
+    .song-list-title {
+        background-color: #ddd8;
+        color: #000;
     }
 }
 </style>
