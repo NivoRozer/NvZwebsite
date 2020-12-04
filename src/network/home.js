@@ -21,12 +21,21 @@ export function getRecommend() {
     return request({
         url: '/top/playlist/highquality',
         params: {
-            limit: 5
+            limit: 10
         }
     })
 };
 
-export function getHomeGoods(type,limit,offset) {
+export function getNewSongs(type) {
+    return request({
+        url: '/top/song',
+        params: {
+            type
+        }
+    })
+};
+
+export function getHomeGoods(type, limit, offset) {
     return request({
         url: '/artist/list',
         params: {

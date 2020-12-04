@@ -34,8 +34,8 @@ const routes = [
     // },
     {
         path: '/music',
-        name: 'MusicPlayer',
-        component: () => import('../views/music/MusicPlayer.vue'),
+        name: 'Music',
+        component: () => import('../views/music/Music.vue'),
         meta: {
             title: '音乐播放器'
         },

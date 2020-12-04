@@ -2,11 +2,26 @@
     <div class="search-albums">
         <ul>
             <li v-for="item in searchResult" :key="item.id">
-                <img :src="item.picUrl" alt="" />
-                <span class="album-name">{{ item.name }}</span>
-                <span class="album-artist">{{ item.artist.name }}</span>
-                <span>{{ item.publishTime | formatDate }}发行</span>
-                <span>{{ item.size }}首</span>
+                <div class="album-image">
+                    <img :src="item.picUrl" alt="" />
+                </div>
+                <div>
+                    <span class="album-name">{{ item.name }}</span>
+                </div>
+                <div>
+                    <span
+                        class="album-artist"
+                        v-for="item in item.artists"
+                        :key="item.id"
+                        >{{ item.name }}</span
+                    >
+                </div>
+                <div>
+                    <span>{{ item.publishTime | formatDate }}发行</span>
+                </div>
+                <div class="album-size">
+                    <span>{{ item.size }}首</span>
+                </div>
             </li>
         </ul>
     </div>
@@ -41,12 +56,15 @@ export default {
     overflow: hidden;
     ul {
         li {
-            img {
-                border-radius: 5px;
-                height: 100%;
-                box-shadow: 0 0 5px rgb(0, 0, 0, 0.5),
-                    10px 10px 20px rgb(0, 0, 0, 0.2);
+            .album-image {
+                img {
+                    border-radius: 5px;
+                    height: 96px;
+                    box-shadow: 0 0 5px rgb(0, 0, 0, 0.5),
+                        5px 5px 10px rgb(0, 0, 0, 0.2);
+                }
             }
+
             .album-name {
                 cursor: pointer;
                 &:hover {
@@ -57,6 +75,15 @@ export default {
                 cursor: pointer;
                 &:hover {
                     text-shadow: 0 0 2px #fff8;
+                }
+                &:not(:last-child)::after {
+                    content: "/";
+                }
+            }
+            .album-size {
+                padding: 0 40px 0 0;
+                span {
+                    float: right;
                 }
             }
             margin: 10px;

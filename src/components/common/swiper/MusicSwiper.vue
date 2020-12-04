@@ -52,6 +52,7 @@ export default {
                 notNextTick: true,
                 pagination: {
                     el: ".swiper-pagination",
+                    clickable: true,
                 },
                 navigation: {
                     nextEl: ".swiper-button-next",
@@ -59,20 +60,22 @@ export default {
                 },
 
                 effect: "coverflow",
-                grabCursor: true,
+                // grabCursor: true,
                 centeredSlides: true,
                 slidesPerView: "auto",
 
                 loop: true,
 
-                // autoplay: {
-                //     disableOnInteraction: false,
-                //     delay: 3000,
-                // },
+                autoplay: {
+                    disableOnInteraction: false,
+                    delay: 3000,
+                },
+                slideToClickedSlide: true,
+
                 speed: 800,
 
                 coverflowEffect: {
-                    rotate: 50,
+                    rotate: 30,
                     stretch: 0,
                     depth: 100,
                     modifier: 1,
@@ -111,13 +114,18 @@ export default {
     //     }
     // }
     width: 100%;
-    height: 400px;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    --swiper-pagination-color: #fff;
+    // height: 400px;
+    // padding-top: 50px;
+    // padding-bottom: 50px;
 }
 .swiper {
-    height: 100%;
+    // height: 100%;
     width: 100%;
+    border-radius: 10px;
+    filter: drop-shadow(0 0 10px #0008);
+    padding: 50px 0;
+
     .swiper-slide {
         display: flex;
         justify-content: center;
@@ -129,20 +137,48 @@ export default {
         // background-color: #2c8dfb;
         background-position: center;
         background-size: cover;
-    }
-    .swiper-pagination {
-        .swiper-pagination-bullet-active {
-            background-color: #ff0;
+        backface-visibility: hidden;
+
+        img {
+            border-radius: 10px;
+            border: 1px solid transparent;
+            height: 100%;
+            // width: 100%;
+            transition: all 0.2s ease;
+            &:hover {
+                box-shadow: 0 0 1px 2px #fffb;
+            }
         }
+        // .swiper-pagination {
+        //     .swiper-pagination-bullet-active {
+
+        //     }
+        // }
     }
+
     .swiper-button-next {
         color: #fff8;
+        filter: drop-shadow(0 0 10px #000f);
+        transition: all 0.5s ease;
+        &:hover {
+            color: #fff;
+            transform: scale(1.2);
+        }
+        &:active {
+            transform: scale(0.8);
+        }
     }
     .swiper-button-prev {
         color: #fff8;
+        filter: drop-shadow(0 0 10px #000f);
+        transition: all 0.5s ease;
+        &:hover {
+            color: #fff;
+            transform: scale(1.2);
+        }
+        &:active {
+            transform: scale(0.8);
+        }
     }
-}
-.swiper >>> .swiper-pagination-bullet-active {
-    background-color: #fff;
 }
 </style>

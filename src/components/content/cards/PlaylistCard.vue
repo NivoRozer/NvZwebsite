@@ -28,6 +28,8 @@ export default {
     overflow: hidden;
     margin: 10px;
     border: 2px solid #fff1;
+    background-color: #fff1;
+
     transition: all 0.2s ease;
     cursor: pointer;
     &:hover {

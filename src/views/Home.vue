@@ -13,7 +13,7 @@
         </header>
         <nav class="navlist">
             <div><router-link to="/portal">入口</router-link></div>
-            <div><router-link to="/resume">个人介绍</router-link></div>
+            <div><router-link to="">个人介绍</router-link></div>
             <div><router-link to="">其他</router-link></div>
             <div><router-link to="">关于</router-link></div>
         </nav>

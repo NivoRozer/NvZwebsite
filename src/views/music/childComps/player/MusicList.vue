@@ -1,63 +1,31 @@
 <template>
-    <div class="search-songs">
+    <div class="music-list">
         <ul>
-            <li class="song-list-title">
-                <div>
-                    <span>音乐标题</span>
-                </div>
-                <div>
-                    <span>艺术家</span>
-                </div>
-                <div>
-                    <span>专辑</span>
-                </div>
-                <div>
-                    <span>时长</span>
-                </div>
-            </li>
-            <li v-for="item in searchResult" :key="item.id">
-                <div class="song-list-name">
+            <li v-for="(item, id) in musicLists" :key="id">
+                <div class="music-list-name">
                     <span>{{ item.name | filterNull }}</span>
                 </div>
-                <div class="song-list-artist">
-                    <span v-for="item in item.artists" :key="item.id">{{
-                        item.name | filterNull
-                    }}</span>
+                <div class="music-list-artist">
+                    <span>{{ item.artist | filterNull }}</span>
                 </div>
-                <div class="song-list-album">
-                    <span>{{ item.album.name | filterNull }}</span>
-                </div>
-                <div>
+                <div class="music-list-size">
                     <span>{{
                         item.duration | filterNull | filterDuration
                     }}</span>
                 </div>
             </li>
         </ul>
-        <!-- <pagination
-            @pageTurn="pageTurn"
-            :total="total"
-            :pageSize="limit"
-            :curPage="curPage"
-        /> -->
     </div>
 </template>
 
 <script>
-import Pagination from "components/common/button/Pagination";
-
 export default {
-    name: "SearchSongs",
-    components: {
-        Pagination,
-    },
-    props: ["searchResult"],
+    name: "MusicList",
     data() {
         return {
-            // songs: this.searchResult,
+            musicLists: [],
         };
     },
-    created() {},
     filters: {
         //过滤空数据
         filterNull(item) {
@@ -77,12 +45,11 @@ export default {
             return `${min}:${sec}`;
         },
     },
-    methods: {},
 };
 </script>
 
 <style lang='scss' scoped>
-.search-songs {
+.music-list {
     li {
         display: grid;
         grid-template-columns: 5fr 2fr 4fr 1fr;
@@ -102,34 +69,25 @@ export default {
             line-height: 40px;
             text-shadow: 0 0 4px #0008;
         }
-
-        .song-list-name {
-            &:hover {
-                text-shadow: 0 0 2px #fff8;
-            }
+        div:hover {
+            text-shadow: 0 0 2px #fff8;
         }
-        .song-list-artist {
+        // .music-list-name {
+        //     // min-width: 200px;
+        // }
+        .music-list-artist {
             font-size: 14px;
             line-height: 40px;
-            span {
-                transition: all 0.5s ease;
-                &:hover {
-                    text-shadow: 0 0 2px #fff8;
-                }
-                &:not(:last-child)::after {
-                    content: "/";
-                }
-            }
         }
-        .song-list-album {
+        .music-list-album {
             font-size: 14px;
             line-height: 40px;
-            &:hover {
-                text-shadow: 0 0 2px #fff8;
-            }
+        }
+        .music-list-control {
+            text-align: center;
         }
     }
-    li:not(:first-child):hover {
+    li:hover {
         color: #eee;
         background-color: #fff2;
         cursor: pointer;
@@ -141,10 +99,6 @@ export default {
         bottom: 0;
         border-bottom: 1px solid #fff2;
         box-shadow: 0 0 1px #fff8;
-    }
-    .song-list-title {
-        background-color: #ddd8;
-        color: #000;
     }
 }
 </style>

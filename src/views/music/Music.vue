@@ -1,5 +1,5 @@
 <template>
-    <div class="music-player">
+    <div class="music">
         <div class="player-container frosted-glass">
             <header>
                 <h2>Music Player</h2>
@@ -25,7 +25,7 @@
                     <router-view></router-view>
                 </div>
             </div>
-            <footer></footer>
+            <footer><music-player /></footer>
             <!-- <div class="music-list">
                 <ul>
                     <li v-for="(item, id) in musicList" :key="id">
@@ -53,13 +53,16 @@
 
 <script>
 import MusicControler from "@/components/common/MusicControler";
+
 import Search from "./childComps/Search";
+import MusicPlayer from "./childComps/player/MusicPlayer";
 
 export default {
-    name: "MusicPlayer",
+    name: "Music",
     components: {
         MusicControler,
         Search,
+        MusicPlayer,
     },
     data() {
         return {
@@ -83,7 +86,7 @@ export default {
                     path: "",
                 },
             ],
-            musicList: [
+            musicLists: [
                 // {
                 //     id:'001',
                 //     name: "onj001",
@@ -122,7 +125,7 @@ export default {
         },
     },
     created() {
-        this.musicInfo = this.musicList[0];
+        this.musicInfo = this.musicLists[0];
         this.defaultMenuActive();
     },
     mounted() {},
@@ -151,39 +154,40 @@ export default {
         //         },
         //     });
         // },
-        lastMusic() {
-            if (this.index === 0) {
-                this.index = this.musicList.length - 1;
-                this.musicInfo = this.musicList[this.index];
-            } else {
-                this.musicInfo = this.musicList[this.index - 1];
-                this.index--;
-            }
-            console.log(this.index);
-            console.log(this.musicInfo);
-        },
-        nextMusic() {
-            if (this.index + 1 >= this.musicList.length) {
-                this.index = 0;
-                this.musicInfo = this.musicList[this.index];
-            } else {
-                this.musicInfo = this.musicList[this.index + 1];
-                this.index++;
-            }
-            console.log(this.index);
-            console.log(this.musicInfo);
-        },
+
+        // lastMusic() {
+        //     if (this.index === 0) {
+        //         this.index = this.musicList.length - 1;
+        //         this.musicInfo = this.musicList[this.index];
+        //     } else {
+        //         this.musicInfo = this.musicList[this.index - 1];
+        //         this.index--;
+        //     }
+        //     console.log(this.index);
+        //     console.log(this.musicInfo);
+        // },
+        // nextMusic() {
+        //     if (this.index + 1 >= this.musicList.length) {
+        //         this.index = 0;
+        //         this.musicInfo = this.musicList[this.index];
+        //     } else {
+        //         this.musicInfo = this.musicList[this.index + 1];
+        //         this.index++;
+        //     }
+        //     console.log(this.index);
+        //     console.log(this.musicInfo);
+        // },
     },
 };
 </script>
 
 <style lang='scss' scoped>
-.music-player {
+.music {
     height: 100vh;
     // overflow: hidden;
     padding: 40px;
     color: #ccc;
-    background: url(~@/assets/img/4dfce2edfaaaffbdc6339399cc340997.png) center
+    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg) center
         center / cover no-repeat fixed;
 }
 
@@ -247,13 +251,17 @@ export default {
             }
         }
         .player-content {
-            padding: 10px;
+            // padding: 10px;
             border-radius: 4px;
-            height: calc(100vh - 170px);
+            height: calc(100vh - 250px);
             overflow-y: auto;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2),
                 inset 0 0 20px rgba(0, 0, 0, 0.2);
         }
+    }
+    footer {
+        height: 80px;
+        // background-color: #fff8;
     }
 }
 
@@ -265,9 +273,9 @@ export default {
 }
 .frosted-glass::after {
     content: "";
-    background: url(~@/assets/img/4dfce2edfaaaffbdc6339399cc340997.png) center
+    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg) center
         center / cover no-repeat fixed;
-    filter: blur(10px) brightness(100%);
+    filter: blur(10px) brightness(60%);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -277,61 +285,8 @@ export default {
     margin: -30px; //为解决元素的边缘模糊的效果减弱
 }
 
-.music-list {
-    li {
-        display: grid;
-        grid-template-columns: 5fr 2fr 4fr 1fr;
-        grid-column-gap: 20px;
-        text-align: left;
-        position: relative;
-        padding: 0 20px;
-        transition: all 0.5s ease;
-        background-color: #fff0;
-        // grid-auto-flow: row dense;
-        div {
-            // height: 30px;
-            transition: all 0.5s ease;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            line-height: 40px;
-            text-shadow: 0 0 4px #0008;
-        }
-        div:hover {
-            text-shadow: 0 0 2px #fff8;
-        }
-        // .music-list-name {
-        //     // min-width: 200px;
-        // }
-        .music-list-artist {
-            font-size: 14px;
-            line-height: 40px;
-        }
-        .music-list-album {
-            font-size: 14px;
-            line-height: 40px;
-        }
-        .music-list-control {
-            text-align: center;
-        }
-    }
-    li:hover {
-        color: #eee;
-        background-color: #fff2;
-        cursor: pointer;
-    }
-    li:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        border-bottom: 1px solid #fff2;
-        box-shadow: 0 0 1px #fff8;
-    }
-}
-
 @media screen and (max-width: 600px) {
-    .music-player {
+    .music {
         padding: 20px;
         position: fixed;
     }
