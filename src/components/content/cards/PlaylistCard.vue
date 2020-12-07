@@ -20,6 +20,7 @@ export default {
 
 <style lang="scss" scoped>
 .playlist-card {
+    position: relative;
     height: 250px;
     width: 200px;
     // box-shadow: 0 0 6px #0008;
@@ -29,15 +30,34 @@ export default {
     margin: 10px;
     border: 2px solid #fff1;
     background-color: #fff1;
+    // backdrop-filter: blur(50px);
 
     transition: all 0.2s ease;
     cursor: pointer;
     &:hover {
         border: 2px solid #fff8;
         box-shadow: 0 0 6px #fff8;
+        &::before {
+            content: "";
+            background-position: 100% 0;
+        }
         img {
             transform: scale(1.2);
         }
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background-image: linear-gradient(30deg, #0000 65%, #fff4 70%);
+        background-size: 200%;
+        background-position: 40% 0;
+
+        transition: all 0.5s ease-out;
     }
     .playlist-image {
         overflow: hidden;

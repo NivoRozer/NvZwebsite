@@ -1,21 +1,40 @@
 <template>
-    <div class="music-list">
-        <ul>
-            <li v-for="(item, id) in musicLists" :key="id">
-                <div class="music-list-name">
-                    <span>{{ item.name | filterNull }}</span>
-                </div>
-                <div class="music-list-artist">
-                    <span>{{ item.artist | filterNull }}</span>
-                </div>
-                <div class="music-list-size">
-                    <span>{{
-                        item.duration | filterNull | filterDuration
-                    }}</span>
-                </div>
-            </li>
-        </ul>
-    </div>
+    <transition name="fade">
+        <div class="music-list" @click.stop>
+            <span
+                class="default-list"
+                v-if="!$store.state.music.musicLists.length"
+            >
+                你还没有添加任何歌曲
+            </span>
+            <transition-group name="list-complete" tag="ul" mode="out-in">
+                <li
+                    v-for="(item, index) in $store.state.music.musicLists"
+                    :key="item.uuid"
+                    @click="songClick(item)"
+                    class="list-complete-item"
+                >
+                    <div class="music-list-name">
+                        <span>{{ item.name | filterNull }}</span>
+                    </div>
+                    <div class="music-list-artist">
+                        <span>{{ item.artists[0].name | filterNull }}</span>
+                    </div>
+                    <div class="music-list-size">
+                        <span>{{
+                            item.duration | filterNull | filterDuration
+                        }}</span>
+                    </div>
+                    <div
+                        class="music-list-remove"
+                        @click.stop="removeSong(index)"
+                    >
+                        <span>X</span>
+                    </div>
+                </li>
+            </transition-group>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -23,7 +42,29 @@ export default {
     name: "MusicList",
     data() {
         return {
-            musicLists: [],
+            musicLists: [
+                {
+                    id: "001",
+                    name: "Shake",
+                    artist: "",
+                    album: "",
+                    path: "/mp3/Test00.wav",
+                },
+                {
+                    id: "002",
+                    name: "アングレカム",
+                    artist: "Innocent Grey",
+                    album: "FLOWERS ORIGINAL SOUNDTRACK -PRINTEMPS-",
+                    path: "/mp3/Test01.mp3",
+                },
+                {
+                    id: "003",
+                    name: "WINGS ~TYPE-MOON Fes. Opening Theme~",
+                    artist: "深澤秀行",
+                    album: "TYPE-MOON Fes. -10th Anniversary Blu-ray Disc Box-",
+                    path: "/mp3/Test02.mp3",
+                },
+            ],
         };
     },
     filters: {
@@ -45,20 +86,61 @@ export default {
             return `${min}:${sec}`;
         },
     },
+    methods: {
+        songClick(item) {
+            console.log("play" + item.id);
+        },
+        removeSong(index) {
+            console.log("remove" + index);
+            this.$store.commit("removeMusic", index);
+        },
+    },
 };
 </script>
 
 <style lang='scss' scoped>
 .music-list {
+    position: absolute;
+    width: 500px;
+
+    overflow: hidden;
+
+    bottom: 80px;
+    right: 0px;
+
+    z-index: 100;
+    border-radius: 10px 4px 4px 10px;
+    background-color: #222d;
+    box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 10px 10px 20px rgb(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+
+    .default-list {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    ul {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: calc(100vh - 250px);
+        min-height: 200px;
+    }
     li {
         display: grid;
-        grid-template-columns: 5fr 2fr 4fr 1fr;
+        grid-template-columns: 4fr 3fr 1fr 10px;
         grid-column-gap: 20px;
         text-align: left;
-        position: relative;
+        // position: relative;
         padding: 0 20px;
         transition: all 0.5s ease;
         background-color: #fff0;
+        
+        // &:not(:last-child) {
+            // border-bottom: 2px solid #fff2;
+            // box-shadow: 0 0 2px #fff8;
+        // }
         // grid-auto-flow: row dense;
         div {
             // height: 30px;
@@ -86,19 +168,42 @@ export default {
         .music-list-control {
             text-align: center;
         }
+        .music-list-remove {
+            display: none;
+        }
     }
     li:hover {
         color: #eee;
         background-color: #fff2;
         cursor: pointer;
+        .music-list-remove {
+            display: block;
+        }
     }
-    li:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        border-bottom: 1px solid #fff2;
-        box-shadow: 0 0 1px #fff8;
-    }
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.5s ease;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+.list-complete-item {
+    transition: all 1s;
+    display: inline-block;
+}
+.list-complete-move {
+    transition: all 1s;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active for below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.list-complete-leave-active {
+    position: absolute;
 }
 </style>

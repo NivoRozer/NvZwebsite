@@ -210,10 +210,35 @@ export default {
         width: 100%;
         border-radius: 15px;
         transition: all 0.5s ease;
-
+        &::-webkit-input-placeholder {
+            /* WebKit browsers */
+            color: #ddd;
+        }
+        &::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #ddd;
+        }
+        &:hover {
+            &::-webkit-input-placeholder {
+                /* WebKit browsers */
+                color: #333;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                color: #333;
+            }
+        }
         &:focus {
             background: #ddd;
             color: #333;
+            &::-webkit-input-placeholder {
+                /* WebKit browsers */
+                color: #333;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                color: #333;
+            }
             & {
                 & {
                     .search-detail {
@@ -244,6 +269,8 @@ export default {
 
     transition: all 0.5s ease;
     transition-delay: 0.1s;
+
+    backdrop-filter: blur(5px);
 
     ul:not(:last-child) {
         border-bottom: 1px solid #ddd8;

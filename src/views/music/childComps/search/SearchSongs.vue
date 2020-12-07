@@ -15,12 +15,16 @@
                     <span>时长</span>
                 </div>
             </li>
-            <li v-for="item in searchResult" :key="item.id">
+            <li
+                v-for="(item, index) in searchResult"
+                :key="index"
+                @click.stop="pushMusic(item)"
+            >
                 <div class="song-list-name">
                     <span>{{ item.name | filterNull }}</span>
                 </div>
                 <div class="song-list-artist">
-                    <span v-for="item in item.artists" :key="item.id">{{
+                    <span v-for="(item, index) in item.artists" :key="index">{{
                         item.name | filterNull
                     }}</span>
                 </div>
@@ -45,6 +49,7 @@
 
 <script>
 import Pagination from "components/common/button/Pagination";
+import { mixin } from "components/mixins/mixin";
 
 export default {
     name: "SearchSongs",
@@ -52,6 +57,7 @@ export default {
         Pagination,
     },
     props: ["searchResult"],
+    mixins: [mixin],
     data() {
         return {
             // songs: this.searchResult,
@@ -77,7 +83,13 @@ export default {
             return `${min}:${sec}`;
         },
     },
-    methods: {},
+    methods: {
+        // songClick(item) {
+        //     let song = Object.assign({}, item);
+        //     song.uuid = this.generateUUID();
+        //     this.$store.commit("pushMusic", song);
+        // },
+    },
 };
 </script>
 

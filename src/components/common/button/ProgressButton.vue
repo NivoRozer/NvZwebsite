@@ -20,8 +20,8 @@ export default {
 
             let clickData = clickPosition / progressWidth;
 
-            console.log(clickPosition);
-            console.log(progressWidth);
+            // console.log(clickPosition);
+            // console.log(progressWidth);
             console.log(clickData);
             this.$emit("progressChange",clickData)
         },

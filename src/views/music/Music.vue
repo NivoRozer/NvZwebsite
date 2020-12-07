@@ -196,6 +196,8 @@ export default {
     height: 100%;
     border-radius: 10px;
     box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 0 0 20px rgb(0, 0, 0, 0.2);
+    background-color: #0008;
+    backdrop-filter: blur(5px);
     transition: all 0.5s ease;
     // display: grid;
     // grid-template-rows: 50px auto 50px;

@@ -50,6 +50,7 @@ export default {
         return {
             swiperOptions: {
                 notNextTick: true,
+                // initialslider:0,
                 pagination: {
                     el: ".swiper-pagination",
                     clickable: true,
