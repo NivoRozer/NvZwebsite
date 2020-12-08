@@ -13,12 +13,19 @@
                     :key="item.uuid"
                     @click="songClick(item)"
                     class="list-complete-item"
+                    :class="{
+                        active: item.uuid === $store.state.music.isPlaying.uuid,
+                    }"
                 >
                     <div class="music-list-name">
                         <span>{{ item.name | filterNull }}</span>
                     </div>
                     <div class="music-list-artist">
-                        <span>{{ item.artists[0].name | filterNull }}</span>
+                        <span
+                            v-for="(item, index) in item.artists"
+                            :key="index"
+                            >{{ item.name | filterNull }}</span
+                        >
                     </div>
                     <div class="music-list-size">
                         <span>{{
@@ -41,31 +48,7 @@
 export default {
     name: "MusicList",
     data() {
-        return {
-            musicLists: [
-                {
-                    id: "001",
-                    name: "Shake",
-                    artist: "",
-                    album: "",
-                    path: "/mp3/Test00.wav",
-                },
-                {
-                    id: "002",
-                    name: "アングレカム",
-                    artist: "Innocent Grey",
-                    album: "FLOWERS ORIGINAL SOUNDTRACK -PRINTEMPS-",
-                    path: "/mp3/Test01.mp3",
-                },
-                {
-                    id: "003",
-                    name: "WINGS ~TYPE-MOON Fes. Opening Theme~",
-                    artist: "深澤秀行",
-                    album: "TYPE-MOON Fes. -10th Anniversary Blu-ray Disc Box-",
-                    path: "/mp3/Test02.mp3",
-                },
-            ],
-        };
+        return {};
     },
     filters: {
         //过滤空数据
@@ -88,7 +71,14 @@ export default {
     },
     methods: {
         songClick(item) {
-            console.log("play" + item.id);
+            if (item.uuid !== this.$store.state.music.isPlaying.uuid) {
+                console.log("play" + item.uuid);
+                this.$store.commit("playMusic", item);
+                
+                // this.$emit("listPlay", item.id);
+            } else {
+                console.log("click" + item.uuid);
+            }
         },
         removeSong(index) {
             console.log("remove" + index);
@@ -121,6 +111,13 @@ export default {
         transform: translateX(-50%) translateY(-50%);
     }
 
+    .active {
+        color: #0f0;
+        &:hover {
+            color: #0f0;
+        }
+    }
+
     ul {
         overflow-y: auto;
         overflow-x: hidden;
@@ -136,10 +133,10 @@ export default {
         padding: 0 20px;
         transition: all 0.5s ease;
         background-color: #fff0;
-        
+
         // &:not(:last-child) {
-            // border-bottom: 2px solid #fff2;
-            // box-shadow: 0 0 2px #fff8;
+        // border-bottom: 2px solid #fff2;
+        // box-shadow: 0 0 2px #fff8;
         // }
         // grid-auto-flow: row dense;
         div {
@@ -160,6 +157,15 @@ export default {
         .music-list-artist {
             font-size: 14px;
             line-height: 40px;
+            span {
+                transition: all 0.5s ease;
+                &:hover {
+                    text-shadow: 0 0 2px #fff8;
+                }
+                &:not(:last-child)::after {
+                    content: "/";
+                }
+            }
         }
         .music-list-album {
             font-size: 14px;

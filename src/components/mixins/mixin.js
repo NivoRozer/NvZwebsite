@@ -13,7 +13,13 @@ export const mixin = {
         pushMusic(item) {
             let song = Object.assign({}, item);
             song.uuid = this.generateUUID();
-            this.$store.commit("pushMusic", song);
+            // 判断是否有正在播放的音乐，如果没有，则直接播放并push列表，如果有，则只push对象到列表
+            if (Object.keys(this.$store.state.music.isPlaying).length === 0) {
+                this.$store.commit("pushMusic", song);
+                this.$store.commit("playMusic", song);
+            } else {
+                this.$store.commit("pushMusic", song);
+            }
         }
     },
 }

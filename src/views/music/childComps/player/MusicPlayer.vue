@@ -9,12 +9,25 @@
         </div>
         <div class="music-controler-container">
             <div id="music-info">
-                <div id="music-cover">这是封面</div>
-                <div id="music-name">{{ $store.state.music.str }}</div>
-                <div id="music-artist">艺术家</div>
+                <div id="music-cover">
+                    <img
+                        v-show="songInfo.picUrl"
+                        :src="songInfo.picUrl"
+                        alt=""
+                    />
+                </div>
+                <div id="music-name">
+                    {{ songInfo.name }}
+                </div>
+                <div id="music-artist">
+                    <span
+                        v-for="(item, index) in songInfo.artists"
+                        :key="index"
+                        >{{ item.name }}</span
+                    >
+                </div>
             </div>
             <div id="music-control">
-                <div id="play-mode" @click="playMode">顺序</div>
                 <div id="last" @click="lastMusic">
                     <img src="~@/assets/img/music/left.png" alt="" />
                 </div>
@@ -37,23 +50,28 @@
                 <div id="next" @click="nextMusic">
                     <img src="~@/assets/img/music/right.png" alt="" />
                 </div>
+            </div>
+            <div class="play-menu">
+                <div id="play-mode" @click="playMode">顺序</div>
                 <div id="volume">
                     <progress-button
                         :progressData="volume"
                         @progressChange="volumeClick"
                     />
                 </div>
-            </div>
-            <div class="play-list" @click.stop="showList">
-                <img src="~@/assets/img/menu.png" alt="" />
+                <div class="play-list" @click.stop="showList">
+                    <img src="~@/assets/img/menu.png" alt="" />
+                </div>
             </div>
             <music-list v-show="isShow" />
         </div>
-        <audio src="/mp3/Test01.mp3">您的浏览器不支持 audio 元素。</audio>
+        <audio :src="songInfo.url">您的浏览器不支持 audio 元素。</audio>
     </div>
 </template>
 
 <script>
+import { getSongDetail, getSongURL } from "network/play";
+
 import MusicList from "./MusicList";
 import ProgressButton from "components/common/button/ProgressButton";
 
@@ -66,26 +84,114 @@ export default {
     data() {
         return {
             time: 0,
-            musicSize: 0,
+            musicSize: 1,
             progressWidth: "",
             volume: 0.5,
             audioState: 0,
             isShow: false,
+            songInfo: {
+                url: "",
+                picUrl: "",
+                artists: [],
+                name: "",
+            },
         };
     },
-    created() {},
+    created() {
+        // this.refresh = this.debounce(this.searchSuggest, 500);
+    },
     mounted() {
         // 初始化并实时更新进度条
         this.progressUpdate();
         this.listHide();
+        this.initAudio();
     },
     computed: {
         progressPosition() {
             // 这里计算出进度条长度
             return (this.time / this.musicSize) * this.progressWidth;
         },
+        // 返回vuex数据
+        isPlaying() {
+            return this.$store.state.music.isPlaying;
+        },
+    },
+    watch: {
+        // 监听vuex中当前播放数据变化
+        isPlaying(val) {
+            this.audioPlay(val.id);
+        },
     },
     methods: {
+        // 防抖
+        debounce(fn, delay) {
+            let timer = null;
+            return function () {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(fn, delay);
+            };
+        },
+        initAudio() {
+            // 监听播放状态修改播放按钮图标
+            let audio = document.querySelector("audio");
+            audio.addEventListener("playing", () => {
+                this.audioState = 1;
+            });
+            audio.addEventListener("pause", () => {
+                this.audioState = 0;
+            });
+            audio.addEventListener("ended", () => {
+                console.log("ended");
+                //循环播放列表音乐
+                this.nextMusic();
+            });
+        },
+        audioPlay(id) {
+            console.log("play" + id);
+            let audio = document.querySelector("audio");
+
+            if (id) {
+                getSongDetail(id)
+                    .then((result) => {
+                        console.log(result);
+                        // this.songInfo.picUrl = result.songs[0].al.picUrl;
+                        this.songInfo = {
+                            picUrl: result.songs[0].al.picUrl,
+                            artists: result.songs[0].ar,
+                            name: result.songs[0].name,
+                        };
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+                // if (audio.paused) {
+                //     // 暂停中
+                // } else {
+                //     // 播放中
+                // }
+                getSongURL(id)
+                    .then((result) => {
+                        console.log(result);
+                        this.songInfo.url = result.data[0].url;
+                        // 获取数据后重新载入音乐
+                        audio.load();
+                        audio.addEventListener("canplay", () => {
+                            // 音频可以播放了
+                            console.log("canplay");
+                            audio.play();
+                        });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
+                // audio.pause();
+                // this.songInfo = {};
+            }
+        },
         progressUpdate() {
             let audio = document.querySelector("audio");
             audio.volume = this.volume;
@@ -131,28 +237,36 @@ export default {
             //     this.musicInfo = this.musicList[this.index - 1];
             //     this.index--;
             // }
-            console.log("上一首");
+            let uuid = this.isPlaying.uuid;
+            let musicListLength = this.$store.state.music.musicLists.length;
+            if (uuid && musicListLength !== 1) {
+                console.log("上一首");
+                this.$store.commit("lastMusic");
+            } else {
+                console.log("暂无音乐");
+            }
         },
         togglePlay() {
-            console.log("播放或暂停");
             let audio = document.querySelector("audio");
             if (audio.paused) {
                 audio.play();
-                this.audioState = 1;
+                console.log("播放");
+                // this.audioState = 1;
             } else {
                 audio.pause();
-                this.audioState = 0;
+                console.log("暂停");
+                // this.audioState = 0;
             }
         },
         nextMusic() {
-            // if (this.index + 1 >= this.musicList.length) {
-            //     this.index = 0;
-            //     this.musicInfo = this.musicList[this.index];
-            // } else {
-            //     this.musicInfo = this.musicList[this.index + 1];
-            //     this.index++;
-            // }
-            console.log("下一首");
+            let uuid = this.isPlaying.uuid;
+            let musicListLength = this.$store.state.music.musicLists.length;
+            if (uuid && musicListLength !== 1) {
+                console.log("下一首");
+                this.$store.commit("nextMusic");
+            } else {
+                console.log("暂无音乐");
+            }
         },
         volumeClick(clickData) {
             let audio = document.querySelector("audio");
@@ -246,22 +360,20 @@ export default {
     }
     .music-controler-container {
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns: 2fr 1fr 2fr;
         column-gap: 20px;
         align-items: center;
         padding: 10px 0 0 0;
         img {
             display: block;
         }
-        #music-info {
-            display: grid;
-            grid-template-columns: 1fr 2fr 2fr;
-        }
+
         #music-control {
             display: grid;
             align-items: center;
-            grid-template-columns: 1fr 40px 60px 40px 1fr;
-            column-gap: 20px;
+            justify-items: center;
+            grid-template-columns: 1fr 1fr 1fr;
+            // column-gap: 20px;
             div {
                 transition: all 0.2s ease;
                 &:hover {
@@ -279,6 +391,7 @@ export default {
                 position: relative;
                 cursor: pointer;
                 height: 60px;
+                width: 60px;
                 img {
                     position: absolute;
                     height: 60px;
@@ -291,10 +404,12 @@ export default {
                     height: 40px;
                 }
             }
-            #volume {
-                display: grid;
-                align-items: center;
-            }
+        }
+        .play-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            justify-items: center;
         }
         .play-list {
             // position: relative;
@@ -305,6 +420,50 @@ export default {
                 width: 30px;
             }
         }
+    }
+}
+#music-info {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    align-items: center;
+}
+#music-cover {
+    height: 60px;
+    width: 60px;
+    img {
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 10px 10px 20px rgb(0, 0, 0, 0.2);
+        height: 100%;
+    }
+}
+#music-artist {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // animation: 15s wordsLoop linear infinite alternate;
+    span {
+        transition: all 0.5s ease;
+        &:hover {
+            text-shadow: 0 0 2px #fff8;
+        }
+        &:not(:last-child)::after {
+            content: "/";
+        }
+    }
+}
+#volume {
+    width: 200px;
+}
+
+@keyframes wordsLoop {
+    0% {
+        transform: translateX(0);
+        -webkit-transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);
     }
 }
 </style>
