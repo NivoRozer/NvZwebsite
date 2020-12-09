@@ -121,6 +121,9 @@ export default {
         isPlaying(val) {
             this.audioPlay(val.id);
         },
+        songInfo() {
+            console.log(this.songInfo);
+        },
     },
     methods: {
         // 防抖
@@ -157,11 +160,12 @@ export default {
                     .then((result) => {
                         console.log(result);
                         // this.songInfo.picUrl = result.songs[0].al.picUrl;
-                        this.songInfo = {
-                            picUrl: result.songs[0].al.picUrl,
-                            artists: result.songs[0].ar,
-                            name: result.songs[0].name,
-                        };
+                        this.songInfo.picUrl = result.songs[0].al.picUrl;
+                        this.songInfo.artists = result.songs[0].ar;
+                        this.songInfo.name = result.songs[0].name;
+                        document.getElementsByTagName(
+                            "title"
+                        )[0].innerText = this.songInfo.name;
                     })
                     .catch((err) => {
                         console.log(err);
@@ -177,7 +181,7 @@ export default {
                         console.log(result);
                         this.songInfo.url = result.data[0].url;
                         // 获取数据后重新载入音乐
-                        audio.load();
+                        // audio.load();
                         audio.addEventListener("canplay", () => {
                             // 音频可以播放了
                             console.log("canplay");
