@@ -55,6 +55,10 @@ const routes = [
                 path: 'playlists',
                 name: 'SuggestPlaylists',
                 component: () => import('views/music/childComps/SuggestPlaylists.vue'),
+            }, {
+                path: 'playlist/:id?',
+                name: 'PlaylistDetail',
+                component: () => import('views/music/childComps/detail/PlaylistDetail.vue'),
             }
         ]
     },

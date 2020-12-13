@@ -16,6 +16,10 @@ export default {
             };
             state.musicLists.splice(data, 1);
         },
+        removeAllMusic(state) {
+            state.isPlaying = {};
+            state.musicLists = [];
+        },
 
         playMusic(state, data) {
             // state.isPlaying.album.picUrl = data.picUrl

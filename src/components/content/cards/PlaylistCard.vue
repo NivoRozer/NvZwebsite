@@ -1,5 +1,5 @@
 <template>
-    <div class="playlist-card">
+    <div class="playlist-card" @click="detail(playlistInfo.id)">
         <div class="played-times"></div>
         <div class="playlist-image">
             <img :src="playlistInfo.coverImgUrl" alt="" />
@@ -15,6 +15,16 @@
 export default {
     name: "PlaylistCard",
     props: ["playlistInfo"],
+    methods: {
+        detail(id) {
+            this.$router.push({
+                name: "PlaylistDetail",
+                query: {
+                    id: id,
+                },
+            });
+        },
+    },
 };
 </script>
 

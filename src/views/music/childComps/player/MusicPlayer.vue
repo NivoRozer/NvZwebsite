@@ -171,17 +171,15 @@ export default {
                         console.log(err);
                     });
 
-                // if (audio.paused) {
-                //     // 暂停中
-                // } else {
-                //     // 播放中
-                // }
                 getSongURL(id)
                     .then((result) => {
                         console.log(result);
-                        this.songInfo.url = result.data[0].url;
+                        // this.songInfo.url = result.data[0].url;
+                        this.$set(this.songInfo, "url", result.data[0].url);
+                        // audio.src = result.data[0].url;
+
                         // 获取数据后重新载入音乐
-                        // audio.load();
+                        audio.load();
                         audio.addEventListener("canplay", () => {
                             // 音频可以播放了
                             console.log("canplay");
@@ -192,8 +190,15 @@ export default {
                         console.log(err);
                     });
             } else {
-                // audio.pause();
-                // this.songInfo = {};
+                // 停止音乐
+                audio.pause();
+                this.audioState = 0;
+
+                // console.log(this.audioState);
+                // console.log("pause" + audio.paused);
+
+                audio.src = "";
+                this.songInfo = {};
             }
         },
         progressUpdate() {

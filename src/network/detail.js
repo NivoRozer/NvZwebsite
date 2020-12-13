@@ -32,8 +32,17 @@ export function getArtistDesc(id) {
     })
 };
 
-export class ArtistDesc{
-    constructor(introduction,briefDesc,topicData){
+// export class ArtistDesc{
+//     constructor(introduction,briefDesc,topicData){
         
-    }
-}
+//     }
+// }
+export function getPlaylistDetail(id) {
+    return request({
+        method: 'get',
+        url: '/playlist/detail',
+        params: {
+            id
+        }
+    })
+};

@@ -8,6 +8,16 @@
                 你还没有添加任何歌曲
             </span>
             <transition-group name="list-complete" tag="ul" mode="out-in">
+                <div
+                    :key="0"
+                    class="music-list-info"
+                    v-if="$store.state.music.musicLists.length"
+                >
+                    <span
+                        >{{ $store.state.music.musicLists.length }}首歌曲</span
+                    >
+                    <span class="clear-list" @click="clearAll">全部清除</span>
+                </div>
                 <li
                     v-for="(item, index) in $store.state.music.musicLists"
                     :key="item.uuid"
@@ -74,7 +84,7 @@ export default {
             if (item.uuid !== this.$store.state.music.isPlaying.uuid) {
                 console.log("play" + item.uuid);
                 this.$store.commit("playMusic", item);
-                
+
                 // this.$emit("listPlay", item.id);
             } else {
                 console.log("click" + item.uuid);
@@ -83,6 +93,9 @@ export default {
         removeSong(index) {
             console.log("remove" + index);
             this.$store.commit("removeMusic", index);
+        },
+        clearAll() {
+            this.$store.commit("removeAllMusic");
         },
     },
 };
@@ -123,6 +136,21 @@ export default {
         overflow-x: hidden;
         max-height: calc(100vh - 250px);
         min-height: 200px;
+        .music-list-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10 20px;
+            align-items: center;
+            margin: 10px 50px 10px 20px;
+            .clear-list {
+                cursor: pointer;
+                transition: all 0.5s ease;
+                // color: #fff;
+                &:hover {
+                    text-shadow: 0 0 2px #fff;
+                }
+            }
+        }
     }
     li {
         display: grid;
