@@ -49,6 +49,7 @@ export default {
     data() {
         return {
             swiperOptions: {
+                observer: true,
                 notNextTick: true,
                 // initialslider:0,
                 pagination: {

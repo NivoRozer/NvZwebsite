@@ -5,7 +5,6 @@ import router from './router'
 import Router from 'vue-router'
 import store from './store'
 import 'normalize.css'
-import echarts from 'echarts'
 
 Vue.config.productionTip = false
 

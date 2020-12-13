@@ -2,6 +2,9 @@ const path = require('path')
 
 module.exports = {
     configureWebpack: {
+        externals: {
+            "echarts": "echarts",
+        },
         resolve: {
             alias: {
                 // '@':'/src',
@@ -22,7 +25,7 @@ module.exports = {
     },
     productionSourceMap: false,
     publicPath: '/'
-    
+
     // publicPath: process.env.NODE_ENV === 'production'
     //     ? '/production-sub-path/'
     //     : '/'
