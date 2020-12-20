@@ -1,7 +1,9 @@
 <template>
-    <div v-if="visible" class="message">
-        <span>{{ text }}</span>
-    </div>
+    <transition name="fade">
+        <div v-if="visible" class="message">
+            <span>{{ text }}</span>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -32,7 +34,14 @@ export default {
     box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 10px 10px 20px rgb(0, 0, 0, 0.2);
     z-index: 10000;
     transition: all 0.5s ease;
-    animation:showMsg ease 3s forwards;
+    animation: showMsg ease 3s forwards;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 @keyframes showMsg {
     0% {

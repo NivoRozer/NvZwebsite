@@ -1,46 +1,56 @@
 <template>
-    <div class="playlist-detail">
-        <div class="playlist-header" v-if="playlistInfo">
-            <img :src="playlistInfo.coverImgUrl" alt="" />
-            <div class="playlist-info">
-                <div class="playlist-name">
+    <div class="album-detail">
+        <div class="album-header" v-if="albumInfo">
+            <img :src="albumInfo.blurPicUrl" alt="" />
+            <div class="album-info">
+                <div class="album-name">
                     <span>
-                        {{ playlistInfo.name }}
+                        {{ albumInfo.name }}
                     </span>
                     <span
-                        v-for="item in playlistInfo.tags"
+                        v-for="item in albumInfo.alias"
                         :key="item"
-                        class="playlist-tag"
+                        class="album-alias"
                     >
                         {{ item }}
                     </span>
                 </div>
-                <div class="playlist-creator">
-                    <img :src="playlistInfo.creator.avatarUrl" alt="" />
-                    <span>{{ playlistInfo.creator.nickname }} 创建</span>
+                <div class="album-artists">
+                    艺术家：
+                    <span
+                        v-for="(item, index) in albumInfo.artists"
+                        :key="index"
+                        >{{ item.name }}</span
+                    >
                 </div>
-
-                <div class="playlist-description">
+                <div class="publish-time">
+                    <span
+                        >发行时间：{{
+                            albumInfo.publishTime | formatDate
+                        }}</span
+                    >
+                </div>
+                <div class="album-description">
                     <span>
-                        {{ playlistInfo.description }}
+                        描述：{{ albumInfo.description | filterNull }}
                     </span>
                 </div>
                 <button>播放全部</button>
             </div>
         </div>
         <search-songs v-if="searchResult" :searchResult="searchResult" />
-        <div class="playlist-loading" v-if="!searchResult">加载中……</div>
+        <div class="album-loading" v-if="!searchResult">加载中……</div>
     </div>
 </template>
 
 <script>
-import { getPlaylistDetail, getSongDetail } from "network/detail";
+import { getAlbumDetail, getSongDetail } from "network/detail";
 import { mixin } from "components/mixins/mixin";
 
 import SearchSongs from "../search/SearchSongs";
 
 export default {
-    name: "PlaylistDetail",
+    name: "AlbumDetail",
     components: {
         SearchSongs,
     },
@@ -48,13 +58,19 @@ export default {
     data() {
         return {
             id: "",
-            playlistInfo: "",
+            albumInfo: "",
             searchResult: "",
         };
     },
     created() {
         this.id = this.$route.query.id;
-        this.getPlaylistDetail(this.id);
+        this.getAlbumDetail(this.id);
+    },
+    watch: {
+        $route() {
+            this.id = this.$route.query.id;
+            this.getAlbumDetail(this.id);
+        },
     },
     filters: {
         //过滤空数据
@@ -78,39 +94,34 @@ export default {
                 return "暂无";
             }
         },
+        formatDate(time) {
+            let date = new Date(time);
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            month = month < 10 ? "0" + month : month;
+            day = day < 10 ? "0" + day : day;
+            time = year + "-" + month + "-" + day;
+            return time;
+        },
     },
     methods: {
-        getPlaylistDetail(id) {
-            getPlaylistDetail(id)
+        getAlbumDetail(id) {
+            getAlbumDetail(id)
                 .then((result) => {
                     console.log(result);
-                    this.playlistInfo = result.playlist;
-                    document.getElementsByTagName("title")[0].innerText =
-                        result.playlist.name;
+                    this.albumInfo = result.album;
 
-                    let trackIds = result.playlist.trackIds.map((x) => {
-                        return x.id;
+                    let songResult = result.songs.map((x) => {
+                        return {
+                            id: x.id,
+                            name: x.name,
+                            artists: x.ar,
+                            album: x.al,
+                            duration: x.dt,
+                        };
                     });
-                    let ids = trackIds.join(",");
-                    // 获取歌单详情后需要拿全部trackIds去请求歌曲详情
-                    getSongDetail(ids)
-                        .then((result) => {
-                            console.log(result);
-                            let songResult = result.songs.map((x) => {
-                                return {
-                                    id: x.id,
-                                    name: x.name,
-                                    artists: x.ar,
-                                    album: x.al,
-                                    duration: x.dt,
-                                };
-                            });
-                            console.log(songResult);
-                            this.searchResult = songResult;
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                    this.searchResult = songResult;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -121,7 +132,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.playlist-header {
+.album-header {
     padding: 20px;
     display: grid;
     grid-template-columns: 200px auto;
@@ -133,19 +144,20 @@ export default {
         box-shadow: 0 0 5px rgb(0, 0, 0, 0.5), 10px 10px 20px rgb(0, 0, 0, 0.2);
     }
 }
-.playlist-info {
+.album-info {
     div {
-        margin: 0 0 15px 0;
+        margin: 0 0 10px 0;
     }
 }
-.playlist-name {
+.album-name {
     height: 30px;
     font-size: 22px;
+    margin: 0 0 20px 0 !important;
     span {
         vertical-align: middle;
     }
 }
-.playlist-tag {
+.album-alias {
     display: inline-block;
     background-color: #fff2;
     border-radius: 4px;
@@ -154,30 +166,32 @@ export default {
     padding: 2px 2px;
     margin: 0 5px;
 }
-.playlist-creator {
-    display: grid;
-    grid-template-columns: 30px auto;
-    column-gap: 10px;
-    img {
-        height: 30px;
-        width: 30px;
-        border-radius: 50%;
-    }
+.album-artists {
+    height: 20px;
     span {
-        height: 30px;
-        line-height: 30px;
+        transition: all 0.5s ease;
+        &:hover {
+            text-shadow: 0 0 2px #fff8;
+        }
+        &:not(:last-child)::after {
+            content: "/";
+        }
     }
 }
-.playlist-description {
+.publish-time {
+    height: 20px;
+}
+.album-description {
+    height: 40px;
     span {
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
 }
-.playlist-loading {
+.album-loading {
     text-align: center;
     line-height: 200px;
 }

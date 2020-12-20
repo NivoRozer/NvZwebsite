@@ -21,10 +21,12 @@ function showMsg(text, duration = 3000) {
     })
 
     // 把 实例化的 Message.vue 添加到 body 里
-    document.body.appendChild(msgDom.$el)
+    document.body.appendChild(msgDom.$el);
 
     // 过了 duration 时间后隐藏
-    setTimeout(() => { msgDom.visible = false }, duration)
+    setTimeout(() => {
+        msgDom.visible = false
+    }, duration);
 }
 
 // 注册为全局组件的函数

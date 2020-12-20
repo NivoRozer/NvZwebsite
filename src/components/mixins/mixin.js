@@ -1,4 +1,16 @@
 export const mixin = {
+    data() {
+        return {
+            // 用于判断组件是否激活
+            activatedFlag: false
+        };
+    },
+    activated() {
+        this.activatedFlag = true;
+    },
+    deactivated() {
+        this.activatedFlag = false;
+    },
     methods: {
         generateUUID() {
             // 生成唯一标识符

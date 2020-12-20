@@ -99,6 +99,9 @@ export default {
     },
     created() {
         // this.refresh = this.debounce(this.searchSuggest, 500);
+        this.volume = window.localStorage.volume
+            ? window.localStorage.volume
+            : this.volume;
     },
     mounted() {
         // 初始化并实时更新进度条
@@ -279,8 +282,10 @@ export default {
         },
         volumeClick(clickData) {
             let audio = document.querySelector("audio");
+            let volStorage = window.localStorage;
             this.volume = clickData;
             audio.volume = this.volume;
+            volStorage.volume = this.volume;
         },
         showList() {
             this.isShow = !this.isShow;

@@ -22,7 +22,9 @@
                     <router-link to="">最新音乐</router-link> -->
                 </nav>
                 <div class="player-content">
-                    <router-view></router-view>
+                    <keep-alive include="SearchDetail,Discovery">
+                        <router-view></router-view>
+                    </keep-alive>
                 </div>
             </div>
             <footer><music-player /></footer>
@@ -187,8 +189,8 @@ export default {
     // overflow: hidden;
     padding: 40px;
     // color: #ccc;
-    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg) center
-        center / cover no-repeat fixed;
+    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg)
+        center center / cover no-repeat fixed;
 }
 
 .player-container {
@@ -275,8 +277,8 @@ export default {
 }
 .frosted-glass::after {
     content: "";
-    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg) center
-        center / cover no-repeat fixed;
+    background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg)
+        center center / cover no-repeat fixed;
     filter: blur(10px) brightness(60%);
     position: absolute;
     top: 0;

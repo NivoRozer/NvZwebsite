@@ -33,7 +33,7 @@
                     <li
                         v-for="item in suggestAlbums"
                         :key="item.id"
-                        @click="search(item.name, 10)"
+                        @click="albumClick(item.id)"
                     >
                         {{ item.name }}
                     </li>
@@ -168,6 +168,14 @@ export default {
                     },
                 });
             }
+        },
+        albumClick(id) {
+            this.$router.push({
+                name: "AlbumDetail",
+                query: {
+                    id: id,
+                },
+            });
         },
         // 搜索框激活
         searchActive() {

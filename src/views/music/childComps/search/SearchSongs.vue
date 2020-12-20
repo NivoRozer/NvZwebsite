@@ -29,7 +29,9 @@
                     }}</span>
                 </div>
                 <div class="song-list-album">
-                    <span>{{ item.album.name | filterNull }}</span>
+                    <span @click.stop="albumClick(item.album.id)">{{
+                        item.album.name | filterNull
+                    }}</span>
                 </div>
                 <div>
                     <span>{{ item.duration | filterDuration }}</span>
@@ -91,6 +93,14 @@ export default {
         //     song.uuid = this.generateUUID();
         //     this.$store.commit("pushMusic", song);
         // },
+        albumClick(id) {
+            this.$router.push({
+                name: "AlbumDetail",
+                query: {
+                    id: id,
+                },
+            });
+        },
     },
 };
 </script>

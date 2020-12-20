@@ -1,7 +1,11 @@
 <template>
     <div class="search-albums">
         <ul>
-            <li v-for="item in searchResult" :key="item.id">
+            <li
+                v-for="item in searchResult"
+                :key="item.id"
+                @click="albumClick(item.id)"
+            >
                 <div class="album-image">
                     <img :src="item.picUrl" alt="" />
                 </div>
@@ -46,6 +50,16 @@ export default {
             day = day < 10 ? "0" + day : day;
             time = year + "-" + month + "-" + day;
             return time;
+        },
+    },
+    methods: {
+        albumClick(id) {
+            this.$router.push({
+                name: "AlbumDetail",
+                query: {
+                    id: id,
+                },
+            });
         },
     },
 };

@@ -67,6 +67,7 @@
 
 <script>
 import { search } from "network/search";
+import { mixin } from "components/mixins/mixin";
 
 import NavBar from "components/common/button/NavBar";
 import SearchSongs from "./search/SearchSongs";
@@ -83,6 +84,7 @@ export default {
         SearchPlaylists,
         Pagination,
     },
+    mixins: [mixin],
     data() {
         return {
             keywords: "",
@@ -125,8 +127,8 @@ export default {
             : 1;
         this.initSearchType(this.type);
 
-        console.log(this.keywords);
-        console.log(this.type);
+        // console.log(this.keywords);
+        // console.log(this.type);
 
         this.search(this.keywords, this.type);
     },
@@ -134,15 +136,18 @@ export default {
     watch: {
         // 监听路由发起请求
         $route() {
-            this.keywords = this.$route.query.keywords;
-            this.type = this.$route.query.type
-                ? parseInt(this.$route.query.type)
-                : 1;
+            // 判断是否位于当前路由
+            if (this.$route.path.indexOf("search") !== -1) {
+                this.keywords = this.$route.query.keywords;
+                this.type = this.$route.query.type
+                    ? parseInt(this.$route.query.type)
+                    : this.type;
 
-            console.log(this.keywords);
-            console.log(this.type);
+                // console.log(this.keywords);
+                // console.log(this.type);
 
-            this.search(this.keywords, this.type);
+                this.search(this.keywords, this.type);
+            }
         },
     },
     methods: {
@@ -175,17 +180,17 @@ export default {
                     console.log(result.result);
                     switch (type) {
                         case 1:
-                            console.log(result.result.songCount);
+                            // console.log(result.result.songCount);
                             this.searchCount = result.result.songCount;
                             this.searchResult = result.result.songs;
                             break;
                         case 10:
-                            console.log(result.result.albumCount);
+                            // console.log(result.result.albumCount);
                             this.searchCount = result.result.albumCount;
                             this.searchResult = result.result.albums;
                             break;
                         case 1000:
-                            console.log(result.result.playlistCount);
+                            // console.log(result.result.playlistCount);
                             this.searchCount = result.result.playlistCount;
                             this.searchResult = result.result.playlists;
                             break;
@@ -204,7 +209,6 @@ export default {
             this.type = type;
             this.search(this.keywords, this.type);
             // this.initSearchType(this.type);
-
         },
         // 跳页
         pageTurn(page) {

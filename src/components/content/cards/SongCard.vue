@@ -57,6 +57,12 @@ export default {
     .song-name {
         margin: auto 0;
         padding: 0 10px;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
     .song-artists-name {
         margin: auto 0;

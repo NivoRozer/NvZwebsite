@@ -1,6 +1,8 @@
 <template>
     <div class="playlist-card" @click="detail(playlistInfo.id)">
-        <div class="played-times"></div>
+        <div class="played-times">
+            {{ playlistInfo.playCount | numFormat }}播放
+        </div>
         <div class="playlist-image">
             <img :src="playlistInfo.coverImgUrl" alt="" />
         </div>
@@ -15,6 +17,17 @@
 export default {
     name: "PlaylistCard",
     props: ["playlistInfo"],
+    filters: {
+        numFormat(item) {
+            if (item.toString().length > 4) {
+                const value = item / 10000;
+                const realVal = parseFloat(value).toFixed(1);
+                return realVal + "万";
+            } else {
+                return item;
+            }
+        },
+    },
     methods: {
         detail(id) {
             this.$router.push({
@@ -47,6 +60,9 @@ export default {
     &:hover {
         border: 2px solid #fff8;
         box-shadow: 0 0 6px #fff8;
+        .played-times {
+            opacity: 1;
+        }
         &::before {
             content: "";
             background-position: 100% 0;
@@ -80,6 +96,18 @@ export default {
         max-width: 100%;
         max-height: 100%;
     }
+}
+.played-times {
+    opacity: 0;
+    position: absolute;
+    z-index: 10;
+    right: 5px;
+    top: 5px;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background-color: #000a;
+    transition: all 0.2s ease;
 }
 .playlist-name {
     padding: 5px;
