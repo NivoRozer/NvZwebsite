@@ -197,6 +197,14 @@ export default {
         input {
             background: #ddd;
             color: #333;
+            &::-webkit-input-placeholder {
+                /* WebKit browsers */
+                color: #333;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                color: #333;
+            }
         }
     }
 
@@ -217,16 +225,6 @@ export default {
         &::-moz-placeholder {
             /* Mozilla Firefox 19+ */
             color: #ddd;
-        }
-        &:hover {
-            &::-webkit-input-placeholder {
-                /* WebKit browsers */
-                color: #333;
-            }
-            &::-moz-placeholder {
-                /* Mozilla Firefox 19+ */
-                color: #333;
-            }
         }
         &:focus {
             background: #ddd;

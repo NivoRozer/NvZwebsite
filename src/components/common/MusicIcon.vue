@@ -33,9 +33,8 @@ export default {
             //返回资源地址
             musicSource: "",
             musicList: [
-                // "/mp3/onj001.mp3",
-                "/mp3/Test01.mp3",
-                "/mp3/Test02.mp3",
+                "http://m8.music.126.net/20201213125229/cfe73786398e8aa24f7dd01247662079/ymusic/da36/0f09/c0aa/7367f9cb301fe664af56e96d218accff.mp3",
+                "http://m8.music.126.net/20201213125025/05df785f9b48e47547a9a978572cbba9/ymusic/f540/24b8/9196/901233efe81fd44d0e88495368dc8fed.mp3",
             ],
         };
     },

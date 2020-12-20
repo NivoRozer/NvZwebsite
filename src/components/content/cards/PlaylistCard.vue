@@ -81,4 +81,14 @@ export default {
         max-height: 100%;
     }
 }
+.playlist-name {
+    padding: 5px;
+    span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+}
 </style>

@@ -36,11 +36,10 @@
                             :key="index"
                             >{{ item.name | filterNull }}</span
                         >
+                        <span v-if="!item.artists">暂无</span>
                     </div>
                     <div class="music-list-size">
-                        <span>{{
-                            item.duration | filterNull | filterDuration
-                        }}</span>
+                        <span>{{ item.duration | filterDuration }}</span>
                     </div>
                     <div
                         class="music-list-remove"
@@ -63,20 +62,24 @@ export default {
     filters: {
         //过滤空数据
         filterNull(item) {
-            return (item = item ? item : "暂无");
+            return item ? item : "暂无";
         },
         //过滤歌曲时长
         filterDuration(time) {
-            let duration = time;
-            let min = parseInt(duration / 1000 / 60);
-            if (min < 10) {
-                min = "0" + min;
+            if (time) {
+                let duration = time;
+                let min = parseInt(duration / 1000 / 60);
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                let sec = parseInt((duration / 1000) % 60);
+                if (sec < 10) {
+                    sec = "0" + sec;
+                }
+                return `${min}:${sec}`;
+            } else {
+                return "暂无";
             }
-            let sec = parseInt((duration / 1000) % 60);
-            if (sec < 10) {
-                sec = "0" + sec;
-            }
-            return `${min}:${sec}`;
         },
     },
     methods: {
@@ -183,7 +186,7 @@ export default {
         //     // min-width: 200px;
         // }
         .music-list-artist {
-            font-size: 14px;
+            // font-size: 14px;
             line-height: 40px;
             span {
                 transition: all 0.5s ease;
@@ -195,13 +198,9 @@ export default {
                 }
             }
         }
-        .music-list-album {
-            font-size: 14px;
-            line-height: 40px;
-        }
-        .music-list-control {
-            text-align: center;
-        }
+        // .music-list-size {
+            // font-size: 14px;
+        // }
         .music-list-remove {
             display: none;
         }

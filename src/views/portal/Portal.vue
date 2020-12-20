@@ -30,12 +30,12 @@ export default {
     data() {
         return {
             portalList: [
-                {
-                    projectId: "001",
-                    name: "项目1",
-                    path: "",
-                    imgURL: "",
-                },
+                // {
+                //     projectId: "001",
+                //     name: "项目1",
+                //     path: "",
+                //     imgURL: "",
+                // },
                 {
                     projectId: "002",
                     name: "音乐播放器",
@@ -43,12 +43,12 @@ export default {
                     imgURL:
                         "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606116463266&di=8777f9c4fa3fb3dd80d3e69796089f15&imgtype=0&src=http%3A%2F%2Fr.sinaimg.cn%2Flarge%2Farticle%2F3039876ad7ebb587e63eef7b34f767c0",
                 },
-                {
-                    projectId: "003",
-                    name: "项目3",
-                    path: "",
-                    imgURL: "",
-                },
+                // {
+                //     projectId: "003",
+                //     name: "项目3",
+                //     path: "",
+                //     imgURL: "",
+                // },
                 {
                     projectId: "004",
                     name: "数据可视化",

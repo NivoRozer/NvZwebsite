@@ -20,6 +20,7 @@ export const mixin = {
             } else {
                 this.$store.commit("pushMusic", song);
             }
+            this.$message('已添加到播放列表')
         }
     },
 }

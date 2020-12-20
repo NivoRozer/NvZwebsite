@@ -8,7 +8,7 @@
             <div id="top-title">
                 <span id="title01">个人小站</span>
                 <hr />
-                <span id="title02">www.xiuuhui.com</span>
+                <span id="title02">nvz.xiuuhui.com</span>
             </div>
         </header>
         <nav class="navlist">
@@ -30,7 +30,7 @@
                 <span>
                     <a href="http://beian.miit.gov.cn/">赣ICP备 2020011012号</a>
                 </span>
-                <span>Copyright © 2020-2020 huihui.xiong.</span>
+                <span>Copyright © 2020-2020 nvz</span>
             </div>
         </footer>
     </div>

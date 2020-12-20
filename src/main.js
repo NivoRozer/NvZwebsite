@@ -5,10 +5,13 @@ import router from './router'
 import Router from 'vue-router'
 import store from './store'
 import 'normalize.css'
+import msg from 'assets/js/msg.js'
 
 Vue.config.productionTip = false
 
 Vue.prototype.$echarts = echarts;
+
+Vue.use(msg)
 
 new Vue({
     router,

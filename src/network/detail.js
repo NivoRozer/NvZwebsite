@@ -46,3 +46,12 @@ export function getPlaylistDetail(id) {
         }
     })
 };
+export function getSongDetail(ids) {
+    return request({
+        method: 'get',
+        url: '/song/detail',
+        params: {
+            ids
+        }
+    })
+};

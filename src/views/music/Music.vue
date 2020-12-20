@@ -186,7 +186,7 @@ export default {
     height: 100vh;
     // overflow: hidden;
     padding: 40px;
-    color: #ccc;
+    // color: #ccc;
     background: url(~@/assets/img/f551871cb5171dc69a2294d749f6fe9f81368713.jpg) center
         center / cover no-repeat fixed;
 }

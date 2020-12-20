@@ -32,9 +32,7 @@
                     <span>{{ item.album.name | filterNull }}</span>
                 </div>
                 <div>
-                    <span>{{
-                        item.duration | filterNull | filterDuration
-                    }}</span>
+                    <span>{{ item.duration | filterDuration }}</span>
                 </div>
             </li>
         </ul>
@@ -67,20 +65,24 @@ export default {
     filters: {
         //过滤空数据
         filterNull(item) {
-            return (item = item ? item : "暂无");
+            return item ? item : "暂无";
         },
         //过滤歌曲时长
         filterDuration(time) {
-            let duration = time;
-            let min = parseInt(duration / 1000 / 60);
-            if (min < 10) {
-                min = "0" + min;
+            if (time) {
+                let duration = time;
+                let min = parseInt(duration / 1000 / 60);
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                let sec = parseInt((duration / 1000) % 60);
+                if (sec < 10) {
+                    sec = "0" + sec;
+                }
+                return `${min}:${sec}`;
+            } else {
+                return "暂无";
             }
-            let sec = parseInt((duration / 1000) % 60);
-            if (sec < 10) {
-                sec = "0" + sec;
-            }
-            return `${min}:${sec}`;
         },
     },
     methods: {

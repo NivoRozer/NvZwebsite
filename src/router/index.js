@@ -50,12 +50,16 @@ const routes = [
                 path: 'discovery',
                 name: 'Discovery',
                 component: () => import('views/music/childComps/Discovery.vue'),
+                meta: {
+                    title: '音乐播放器'
+                },
             },
             {
                 path: 'playlists',
                 name: 'SuggestPlaylists',
                 component: () => import('views/music/childComps/SuggestPlaylists.vue'),
-            }, {
+            },
+            {
                 path: 'playlist/:id?',
                 name: 'PlaylistDetail',
                 component: () => import('views/music/childComps/detail/PlaylistDetail.vue'),
