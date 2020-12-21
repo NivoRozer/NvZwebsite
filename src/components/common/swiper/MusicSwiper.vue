@@ -67,6 +67,8 @@ export default {
                 slidesPerView: "auto",
 
                 loop: true,
+                // loopedSlides: 5,
+                // loopAdditionalSlides: 2, 
 
                 autoplay: {
                     disableOnInteraction: false,

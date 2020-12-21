@@ -6,13 +6,6 @@
                 <strong>{{ keywords }}</strong>
                 <span>找到{{ searchCount }}个结果</span>
             </div>
-            <!-- <nav class="navlist">
-                <ul>
-                    <li :class="{ active: type === 1 }">歌曲</li>
-                    <li :class="{ active: type === 10 }">专辑</li>
-                    <li :class="{ active: type === 1000 }">歌单</li>
-                </ul>
-            </nav> -->
             <nav-bar
                 :titles="navData"
                 :curType="type"
@@ -20,38 +13,6 @@
             ></nav-bar>
         </header>
         <body class="music-list">
-            <!-- <ul>
-                <li>
-                    <div>
-                        <span>音乐标题</span>
-                    </div>
-                    <div>
-                        <span>艺术家</span>
-                    </div>
-                    <div>
-                        <span>专辑</span>
-                    </div>
-                    <div>
-                        <span>时长</span>
-                    </div>
-                </li>
-                <li v-for="item in searchResult" :key="item.id">
-                    <div class="music-list-name">
-                        <span>{{ item.name | filterNull }}</span>
-                    </div>
-                    <div class="music-list-artist">
-                        <span>{{ item.artists[0].name | filterNull }}</span>
-                    </div>
-                    <div class="music-list-album">
-                        <span>{{ item.album.name | filterNull }}</span>
-                    </div>
-                    <div>
-                        <span>{{
-                            item.duration | filterNull | filterDuration
-                        }}</span>
-                    </div>
-                </li>
-            </ul> -->
             <component :is="navIndex" :searchResult="searchResult"></component>
         </body>
         <footer>
@@ -137,7 +98,7 @@ export default {
         // 监听路由发起请求
         $route() {
             // 判断是否位于当前路由
-            if (this.$route.path.indexOf("search") !== -1) {
+            if (this.$route.path.includes("search")) {
                 this.keywords = this.$route.query.keywords;
                 this.type = this.$route.query.type
                     ? parseInt(this.$route.query.type)

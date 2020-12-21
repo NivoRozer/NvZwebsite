@@ -72,39 +72,6 @@ export default {
             this.getAlbumDetail(this.id);
         },
     },
-    filters: {
-        //过滤空数据
-        filterNull(item) {
-            return (item = item ? item : "暂无");
-        },
-        //过滤歌曲时长
-        filterDuration(time) {
-            if (time) {
-                let duration = time;
-                let min = parseInt(duration / 1000 / 60);
-                if (min < 10) {
-                    min = "0" + min;
-                }
-                let sec = parseInt((duration / 1000) % 60);
-                if (sec < 10) {
-                    sec = "0" + sec;
-                }
-                return `${min}:${sec}`;
-            } else {
-                return "暂无";
-            }
-        },
-        formatDate(time) {
-            let date = new Date(time);
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
-            month = month < 10 ? "0" + month : month;
-            day = day < 10 ? "0" + day : day;
-            time = year + "-" + month + "-" + day;
-            return time;
-        },
-    },
     methods: {
         getAlbumDetail(id) {
             getAlbumDetail(id)

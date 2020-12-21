@@ -14,7 +14,8 @@ const routes = [
         component: Home,
         meta: {
             title: '主页'
-        }
+        },
+        redirect: '/music/discovery',
     },
     {
         path: '/portal',
@@ -58,6 +59,10 @@ const routes = [
                 path: 'playlists',
                 name: 'SuggestPlaylists',
                 component: () => import('views/music/childComps/SuggestPlaylists.vue'),
+            },{
+                path: 'newsongs',
+                name: 'NewSongs',
+                component: () => import('views/music/childComps/NewSongs.vue'),
             },
             {
                 path: 'playlist/:id?',

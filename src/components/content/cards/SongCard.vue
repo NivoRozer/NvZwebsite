@@ -1,5 +1,5 @@
 <template>
-    <div class="song-card">
+    <div class="song-card" @click="pushMusic(songInfo)">
         <div class="song-image">
             <img :src="songInfo.album.picUrl" alt="" />
         </div>
@@ -16,9 +16,11 @@
 </template>
 
 <script>
+import { mixin } from "components/mixins/mixin";
 export default {
     name: "SongCard",
     props: ["songInfo"],
+    mixins: [mixin],
 };
 </script>
 
@@ -57,7 +59,7 @@ export default {
     .song-name {
         margin: auto 0;
         padding: 0 10px;
-        
+
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;

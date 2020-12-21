@@ -92,12 +92,12 @@ export default {
     // display: grid;
     // grid-template-rows: 50px 1fr 30px;
     position: relative;
-    .top {
-        .music-swiper {
+    // .top {
+        // .music-swiper {
             // position: absolute;
             // width: 500px;
-        }
-    }
+        // }
+    // }
     .mid {
         margin-bottom: 20px;
         h2 {

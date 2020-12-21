@@ -5,8 +5,13 @@ export default {
     },
     mutations: {
         pushMusic(state, data) {
-            state.musicLists.push(data);
-            console.log(state.musicLists);
+            // state.musicLists.push(data);
+            // console.log(state.musicLists);
+            let isPlayIndex = state.musicLists.findIndex(item => {
+                return item.uuid === state.isPlaying.uuid
+            })
+            // 在当前播放歌曲位置后插入音乐
+            state.musicLists.splice(isPlayIndex + 1, 0, data);
         },
         removeMusic(state, data) {
             // 判断播放列表中移除的音乐是否正在播放

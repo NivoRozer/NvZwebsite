@@ -1,52 +1,15 @@
 <template>
     <div class="suggest-playlists">
-        <div class="top">轮播图</div>
+        <!-- <div class="top">顶端图</div>
         <div class="mid">
-            精品歌单
-            <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>11</li>
-                <li>12</li>
-                <li>13</li>
-                <li>14</li>
-                <li>15</li>
-                <li>16</li>
-                <li>17</li>
-                <li>18</li>
-                <li>19</li>
-                <li>20</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>11</li>
-                <li>12</li>
-                <li>13</li>
-                <li>14</li>
-                <li>15</li>
-                <li>16</li>
-                <li>17</li>
-                <li>18</li>
-                <li>19</li>
-                <li>20</li>
-            </ul>
-        </div>
-        <div class="bot">最新音乐</div>
+        <div class="bot">最新音乐</div> -->
+        <span class="construction">施工中</span>
+        
+        <nav-bar
+            :titles="navData"
+            :curType="type"
+            @navClick="navClick"
+        ></nav-bar>
     </div>
 </template>
 
@@ -57,13 +20,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.suggest-playlists {
-    // background-color: #ddd8;
-    // height: 100vh;
-    // display: grid;
-    // grid-template-rows: 50px 1fr 30px;
-    // .mid{
-    // overflow-y: auto;
-    // }
+// .suggest-playlists {
+// background-color: #ddd8;
+// height: 100vh;
+// display: grid;
+// grid-template-rows: 50px 1fr 30px;
+// .mid{
+// overflow-y: auto;
+// }
+// }
+.construction {
+    font-size: 100px;
 }
 </style>

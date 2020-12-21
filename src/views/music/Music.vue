@@ -85,39 +85,9 @@ export default {
                 {
                     id: "003",
                     name: "最新音乐",
-                    path: "",
+                    path: "newsongs",
                 },
-            ],
-            musicLists: [
-                // {
-                //     id:'001',
-                //     name: "onj001",
-                //     artist: "",
-                //     album: "",
-                //     path: "/mp3/onj001.mp3",
-                // },
-                {
-                    id: "001",
-                    name: "Shake",
-                    artist: "",
-                    album: "",
-                    path: "/mp3/Test00.wav",
-                },
-                {
-                    id: "002",
-                    name: "アングレカム",
-                    artist: "Innocent Grey",
-                    album: "FLOWERS ORIGINAL SOUNDTRACK -PRINTEMPS-",
-                    path: "/mp3/Test01.mp3",
-                },
-                {
-                    id: "003",
-                    name: "WINGS ~TYPE-MOON Fes. Opening Theme~",
-                    artist: "深澤秀行",
-                    album: "TYPE-MOON Fes. -10th Anniversary Blu-ray Disc Box-",
-                    path: "/mp3/Test02.mp3",
-                },
-            ],
+            ]
         };
     },
     filters: {
