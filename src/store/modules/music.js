@@ -13,6 +13,9 @@ export default {
             // 在当前播放歌曲位置后插入音乐
             state.musicLists.splice(isPlayIndex + 1, 0, data);
         },
+        pushAllMusic(state, data) {
+            state.musicLists.push(data);
+        },
         removeMusic(state, data) {
             // 判断播放列表中移除的音乐是否正在播放
             if (state.musicLists[data].uuid === state.isPlaying.uuid) {

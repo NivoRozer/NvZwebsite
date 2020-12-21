@@ -5,11 +5,11 @@
         <div class="bot">最新音乐</div> -->
         <span class="construction">施工中</span>
         
-        <nav-bar
+        <!-- <nav-bar
             :titles="navData"
             :curType="type"
             @navClick="navClick"
-        ></nav-bar>
+        ></nav-bar> -->
     </div>
 </template>
 

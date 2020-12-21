@@ -1,13 +1,15 @@
 <template>
     <div class="new-songs">
-        <!-- <div class="top">顶端图</div>
-        <div class="mid">
-        <div class="bot">最新音乐</div> -->
-        <nav-bar
-            :titles="navData"
-            :curType="type"
-            @navClick="navClick"
-        ></nav-bar>
+        <div class="top">
+            <nav-bar
+                :titles="navData"
+                :curType="type"
+                @navClick="navClick"
+            ></nav-bar>
+            <play-all-button @click.native="playAllMusic(newSongs)" />
+        </div>
+        <!-- <div class="mid"> -->
+        <!-- <div class="bot">最新音乐</div> -->
         <ul class="music-list">
             <li
                 v-for="item in newSongs"
@@ -36,7 +38,7 @@
                         >{{ item.album.name | filterNull }}</span
                     >
                 </div>
-                <div>
+                <div class="duration">
                     <span>{{ item.duration | filterDuration }}</span>
                 </div>
             </li>
@@ -50,11 +52,13 @@ import { getNewSongs } from "network/home";
 import { mixin } from "components/mixins/mixin";
 
 import NavBar from "components/common/button/NavBar";
+import PlayAllButton from "components/content/button/PlayAllButton";
 
 export default {
     name: "SuggestPlaylists",
     components: {
         NavBar,
+        PlayAllButton,
     },
     mixins: [mixin],
     data() {
@@ -101,7 +105,18 @@ export default {
 
 <style lang="scss" scoped>
 .new-songs {
-    padding: 0px 0 0 0;
+    .top {
+        padding: 20px 30px 0 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .nav-bar {
+            height: 30px;
+        }
+        .play-all-button {
+            height: 40px;
+        }
+    }
 }
 .music-list-item {
     margin: 10px;
@@ -140,6 +155,12 @@ export default {
     cursor: pointer;
     &:hover {
         text-shadow: 0 0 2px #fff8;
+    }
+}
+.duration {
+    padding: 0 40px 0 0;
+    span {
+        float: right;
     }
 }
 .playlist-loading {

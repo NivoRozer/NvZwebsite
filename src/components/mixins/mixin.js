@@ -75,7 +75,15 @@ export const mixin = {
             } else {
                 this.$message('该音乐已在播放')
             }
-
+        },
+        playAllMusic(data) {
+            this.$store.commit("removeAllMusic");
+            for (let item of data) {
+                item.uuid = this.generateUUID();
+                this.$store.commit("pushAllMusic", item);
+            }
+            this.$message('已添加到播放列表')
+            this.$store.commit("playMusic", this.$store.state.music.musicLists[0]);
         }
     },
 }

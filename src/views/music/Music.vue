@@ -12,7 +12,9 @@
                         v-for="item in menuList"
                         :key="item.id"
                         @click="menuClick(item.path)"
-                        :class="{ active: item.path === defaultIndex }"
+                        :class="{
+                            active: $route.path.includes(item.path),
+                        }"
                     >
                         {{ item.name }}
                     </div>
@@ -69,7 +71,7 @@ export default {
     data() {
         return {
             index: 0,
-            musicInfo: "",
+            // musicInfo: "",
             defaultIndex: "",
             menuList: [
                 {
@@ -87,7 +89,7 @@ export default {
                     name: "最新音乐",
                     path: "newsongs",
                 },
-            ]
+            ],
         };
     },
     filters: {
@@ -97,22 +99,21 @@ export default {
         },
     },
     created() {
-        this.musicInfo = this.musicLists[0];
+        // this.musicInfo = this.musicLists[0];
         this.defaultMenuActive();
     },
     mounted() {},
     methods: {
         menuClick(path) {
-            if (path && path !== this.defaultIndex) {
+            if (!this.$route.path.includes(path)) {
                 this.$router.push(path);
                 this.defaultIndex = path;
             } else {
-                console.log("暂无项目路径");
+                console.log("已位于该页面");
             }
         },
         defaultMenuActive() {
             this.defaultIndex = this.$route.path.split("/").reverse()[0];
-            console.log(this.defaultIndex);
         },
         // 接收搜索框组件传出的事件和参数
         // search(keywords, type) {

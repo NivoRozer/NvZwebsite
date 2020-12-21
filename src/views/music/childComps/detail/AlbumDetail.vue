@@ -35,7 +35,7 @@
                         描述：{{ albumInfo.description | filterNull }}
                     </span>
                 </div>
-                <button>播放全部</button>
+                <play-all-button @click.native="playAllMusic(searchResult)" />
             </div>
         </div>
         <search-songs v-if="searchResult" :searchResult="searchResult" />
@@ -48,11 +48,13 @@ import { getAlbumDetail, getSongDetail } from "network/detail";
 import { mixin } from "components/mixins/mixin";
 
 import SearchSongs from "../search/SearchSongs";
+import PlayAllButton from "components/content/button/PlayAllButton";
 
 export default {
     name: "AlbumDetail",
     components: {
         SearchSongs,
+        PlayAllButton,
     },
     mixins: [mixin],
     data() {
@@ -161,19 +163,5 @@ export default {
 .album-loading {
     text-align: center;
     line-height: 200px;
-}
-button {
-    cursor: pointer;
-    height: 40px;
-    width: 100px;
-    border-radius: 20px;
-    border: none;
-    background-color: #fff2;
-    transition: all 0.2s ease;
-    color: #fff;
-    &:hover {
-        box-shadow: 0 0 4px #fff;
-        background-color: #fff4;
-    }
 }
 </style>
