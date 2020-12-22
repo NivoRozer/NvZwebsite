@@ -29,14 +29,16 @@ export default {
             state.musicLists = [];
         },
 
-        playMusic(state, data) {
+        playMusic(state, id) {
             // state.isPlaying.album.picUrl = data.picUrl
             state.isPlaying = {};
-            state.isPlaying.name = data.name;
-            state.isPlaying.artists = data.artists;
-            state.isPlaying.id = data.id;
-            // state.isPlaying.audioUrl = data.uuid
-            state.isPlaying.uuid = data.uuid;
+            state.isPlaying = state.musicLists.find(item=>{
+                return item.id === id
+            })
+            // state.isPlaying.name = data.name;
+            // state.isPlaying.artists = data.artists;
+            // state.isPlaying.id = data.id;
+            // state.isPlaying.uuid = data.uuid;
         },
         lastMusic(state) {
             let isPlayIndex = state.musicLists.findIndex(item => {

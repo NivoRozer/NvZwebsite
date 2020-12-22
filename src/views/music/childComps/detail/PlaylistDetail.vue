@@ -17,7 +17,9 @@
                 </div>
                 <div class="playlist-creator">
                     <img :src="playlistInfo.creator.avatarUrl" alt="" />
-                    <span>{{ playlistInfo.creator.nickname }} 创建</span>
+                    <span
+                        >{{ playlistInfo.creator.nickname }} {{ playlistInfo.createTime | formatDate }}创建</span
+                    >
                 </div>
 
                 <div class="playlist-description">

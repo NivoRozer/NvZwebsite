@@ -5,9 +5,7 @@
 <script>
 export default {
     name: "PlayAllButton",
-    methods: {
-
-    },
+    methods: {},
 };
 </script>
 
@@ -21,6 +19,7 @@ button {
     background-color: #fff2;
     transition: all 0.2s ease;
     color: #fff;
+    outline: none;
     &:hover {
         box-shadow: 0 0 4px #fff;
         background-color: #fff4;

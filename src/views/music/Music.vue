@@ -183,6 +183,7 @@ export default {
         display: grid;
         grid-template-columns: 1fr 5fr;
         .player-menu {
+            z-index: 2;
             div {
                 position: relative;
                 cursor: pointer;

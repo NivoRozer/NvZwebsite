@@ -1,9 +1,9 @@
 <template>
-    <div class="nav-bar">
+    <div class="cat-bar">
         <div
             v-for="(item, index) in titles"
             :key="index"
-            class="nav-bar-item"
+            class="cat-bar-item"
             :class="{ active: index === currentIndex }"
             @click="itemClick(item.type, index)"
         >
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: "NavBar",
+    name: "CatBar",
     props: {
         titles: {
             type: Array,
@@ -23,9 +23,9 @@ export default {
             },
         },
         curType: {
-            type: Number,
+            type: String,
             default() {
-                return 1;
+                return "全部";
             },
         },
     },
@@ -35,23 +35,26 @@ export default {
         };
     },
     created() {
-        this.initNav(this.titles, this.curType);
+        this.initCat(this.titles, this.curType);
     },
     watch: {
+        titles(){
+            this.initCat(this.titles, this.curType);
+        },
         curType() {
-            this.initNav(this.titles, this.curType);
+            this.initCat(this.titles, this.curType);
         },
     },
     methods: {
-        // 接收外部的curType来初始化nav的选中状态
-        initNav(titles, type) {
+        // 接收外部的curType来初始化cat的选中状态
+        initCat(titles, type) {
             let index = titles.findIndex((item) => item.type === type);
             this.currentIndex = index;
         },
         itemClick(type, index) {
             if (index !== this.currentIndex) {
                 this.currentIndex = index;
-                this.$emit("navClick", type);
+                this.$emit("catClick", type);
             }
         },
     },
@@ -59,7 +62,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.nav-bar {
+.cat-bar {
     display: flex;
     justify-content: flex-start;
     height: 30px;

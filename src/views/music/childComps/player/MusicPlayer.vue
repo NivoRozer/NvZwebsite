@@ -153,12 +153,17 @@ export default {
                 //循环播放列表音乐
                 this.nextMusic();
             });
+            audio.addEventListener("canplay", () => {
+                // 音频可以播放了
+                console.log("canplay");
+                audio.play();
+            });
         },
         audioPlay(id) {
-            console.log("play" + id);
             let audio = document.querySelector("audio");
 
             if (id) {
+                console.log("play" + id);
                 getSongDetail(id)
                     .then((result) => {
                         console.log(result);
@@ -183,11 +188,6 @@ export default {
 
                         // 获取数据后重新载入音乐
                         audio.load();
-                        audio.addEventListener("canplay", () => {
-                            // 音频可以播放了
-                            console.log("canplay");
-                            audio.play();
-                        });
                     })
                     .catch((err) => {
                         console.log(err);

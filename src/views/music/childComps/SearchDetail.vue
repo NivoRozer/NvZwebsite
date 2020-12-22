@@ -127,12 +127,8 @@ export default {
             }
         },
         // 请求歌曲查询接口
-        search(keywords, type, page) {
-            // console.log();
-            if (!page) {
-                this.curPage = 1;
-                page = 1;
-            }
+        search(keywords, type, page = 1) {
+            this.curPage = page;
             let limit = this.limit;
             let offset = (page - 1) * limit;
 

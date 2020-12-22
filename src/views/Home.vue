@@ -21,16 +21,15 @@
             <div>
                 <hr />
                 <span
-                    >This is a simple personal learning website, Thanks NvZ for
-                    help.</span
+                    >This is a simple personal learning website by NvZ.</span
                 >
             </div>
             <div>
                 <hr />
                 <span>
-                    <a href="http://beian.miit.gov.cn/">赣ICP备 2020011012号</a>
+                    <a href="http://beian.miit.gov.cn/">赣ICP备2020011012号-1</a>
                 </span>
-                <span>Copyright © 2020-2020 nvz</span>
+                <span>Copyright © 2020-2020 NvZ</span>
             </div>
         </footer>
     </div>

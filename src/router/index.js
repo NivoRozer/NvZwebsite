@@ -14,8 +14,7 @@ const routes = [
         component: Home,
         meta: {
             title: '主页'
-        },
-        redirect: '/music/discovery',
+        }
     },
     {
         path: '/portal',
@@ -23,7 +22,8 @@ const routes = [
         component: () => import('../views/portal/Portal.vue'),
         meta: {
             title: '入口'
-        }
+        },
+        redirect: '/music/discovery',
     },
     // {
     //     path: '/resume',

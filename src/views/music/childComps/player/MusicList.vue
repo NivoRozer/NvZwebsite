@@ -86,7 +86,7 @@ export default {
         songClick(item) {
             if (item.uuid !== this.$store.state.music.isPlaying.uuid) {
                 console.log("play" + item.uuid);
-                this.$store.commit("playMusic", item);
+                this.$store.commit("playMusic", item.id);
 
                 // this.$emit("listPlay", item.id);
             } else {
@@ -199,7 +199,7 @@ export default {
             }
         }
         // .music-list-size {
-            // font-size: 14px;
+        // font-size: 14px;
         // }
         .music-list-remove {
             display: none;

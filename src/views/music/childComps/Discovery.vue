@@ -64,7 +64,7 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-            getRecommend()
+            getRecommend(20)
                 .then((result) => {
                     // console.log(result);
                     this.playlists = result.playlists;
@@ -93,10 +93,10 @@ export default {
     // grid-template-rows: 50px 1fr 30px;
     position: relative;
     // .top {
-        // .music-swiper {
-            // position: absolute;
-            // width: 500px;
-        // }
+    // .music-swiper {
+    // position: absolute;
+    // width: 500px;
+    // }
     // }
     .mid {
         margin-bottom: 20px;
@@ -107,6 +107,7 @@ export default {
             display: grid;
             justify-content: space-around;
             grid-template-columns: repeat(auto-fill, 250px);
+            row-gap: 20px;
         }
     }
     .bot {
@@ -122,5 +123,9 @@ export default {
             grid-template-columns: repeat(auto-fill, 300px);
         }
     }
+}
+h2 {
+    font-family: "华文细黑", "Microsoft YaHei";
+    font-weight: 400;
 }
 </style>

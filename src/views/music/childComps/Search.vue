@@ -94,7 +94,7 @@ export default {
             // 请求默认搜索数据
             searchDefault()
                 .then((result) => {
-                    console.log(result.data);
+                    // console.log(result.data);
                     this.defaultSearch = result.data.showKeyword;
                     this.realkeyword = result.data.realkeyword;
                 })
@@ -105,7 +105,7 @@ export default {
             // 请求热门搜索数据
             searchHot()
                 .then((result) => {
-                    console.log(result.result);
+                    // console.log(result.result);
                     this.searchHot = result.result.hots;
                 })
                 .catch((err) => {
@@ -123,7 +123,7 @@ export default {
                         this.suggestAlbums = result.result.albums
                             ? result.result.albums
                             : "";
-                        console.log(result.result);
+                        // console.log(result.result);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -195,7 +195,7 @@ export default {
     width: 300px;
     height: 30px;
     border-radius: 15px;
-    box-shadow: 0 0 4px #0006;
+    box-shadow:inset 0 0 4px #0008;
     color: #fff;
 
     display: flex;
@@ -204,6 +204,7 @@ export default {
     &:hover {
         input {
             background: #ddd;
+            box-shadow:inset 0 0 4px #0008;
             color: #333;
             &::-webkit-input-placeholder {
                 /* WebKit browsers */
@@ -236,6 +237,7 @@ export default {
         }
         &:focus {
             background: #ddd;
+            box-shadow:inset 0 0 4px #0008;
             color: #333;
             &::-webkit-input-placeholder {
                 /* WebKit browsers */

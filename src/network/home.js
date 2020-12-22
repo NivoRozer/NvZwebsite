@@ -17,11 +17,42 @@ export function getBanner() {
     })
 };
 
-export function getRecommend() {
+// 获取歌单分类
+export function getCatlists() {
+    return request({
+        url: '/playlist/catlist',
+        params: {
+
+        }
+    })
+};
+
+// 获取热门歌单分类
+export function getCategories() {
+    return request({
+        url: '/playlist/hot',
+    })
+};
+
+// 获取精品歌单
+export function getRecommend(limit) {
     return request({
         url: '/top/playlist/highquality',
         params: {
-            limit: 10
+            limit
+        }
+    })
+};
+
+// 获取网友精选碟歌单
+export function getTopPlaylists(cat, limit, offset) {
+    return request({
+        url: '/top/playlist',
+        params: {
+            // order: 'hot',
+            cat,
+            limit,
+            offset
         }
     })
 };

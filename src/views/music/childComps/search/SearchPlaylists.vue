@@ -26,10 +26,10 @@ export default {
 .search-playlist{
     overflow: hidden;
     display: grid;
-    justify-content: space-around;
-    grid-template-columns: repeat(auto-fill, 250px);
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fill, 220px);
     padding: 0 0 15px 0;
     // column-gap: 20px;
-    // row-gap: 20px;
+    row-gap: 20px;
 }
 </style>

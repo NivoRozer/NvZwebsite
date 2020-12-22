@@ -66,24 +66,39 @@ export const mixin = {
             // } else {
             //     this.$store.commit("pushMusic", song);
             // }
+            let musicLists = this.$store.state.music.musicLists
+            let isPlayingId = this.$store.state.music.isPlaying.id
 
-            // 判断是否重复播放
-            if (this.$store.state.music.isPlaying.id !== song.id) {
-                this.$store.commit("pushMusic", song);
-                this.$store.commit("playMusic", song);
-                this.$message('已添加到播放列表')
-            } else {
+            // 判断要添加的音乐是否正在播放
+            if (isPlayingId && isPlayingId == song.id) {
                 this.$message('该音乐已在播放')
+            }
+            // 判断要添加的音乐是否已在播放列表
+            else if (isPlayingId && musicLists.map(i => i.id).includes(song.id)) {
+                this.$store.commit("playMusic", song.id);
+            }
+            else {
+                this.$store.commit("pushMusic", song);
+                this.$store.commit("playMusic", song.id);
+                this.$message('已添加到播放列表')
             }
         },
         playAllMusic(data) {
-            this.$store.commit("removeAllMusic");
-            for (let item of data) {
-                item.uuid = this.generateUUID();
-                this.$store.commit("pushAllMusic", item);
+            let musicLists = this.$store.state.music.musicLists
+            let stateIds = musicLists.map(i => i.id)
+            let dataIds = data.map(i => i.id)
+            // 判断正在播放和即将播放列表是否一致
+            if (JSON.stringify(stateIds) === JSON.stringify(dataIds)) {
+                this.$message('已在播放')
+            } else {
+                this.$store.commit("removeAllMusic");
+                for (let item of data) {
+                    item.uuid = this.generateUUID();
+                    this.$store.commit("pushAllMusic", item);
+                }
+                this.$message('已添加到播放列表')
+                this.$store.commit("playMusic", this.$store.state.music.musicLists[0].id);
             }
-            this.$message('已添加到播放列表')
-            this.$store.commit("playMusic", this.$store.state.music.musicLists[0]);
         }
     },
 }
