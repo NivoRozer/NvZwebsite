@@ -1,6 +1,6 @@
 <template>
     <div class="home bg">
-        <music-icon></music-icon>
+        <!-- <music-icon></music-icon> -->
         <header class="header">
             <div id="top-logo">
                 <img src="/img/MasterChief.png" alt="" />
@@ -13,9 +13,10 @@
         </header>
         <nav class="navlist">
             <div><router-link to="/portal">入口</router-link></div>
-            <div><router-link to="">个人介绍</router-link></div>
-            <div><router-link to="">其他</router-link></div>
-            <div><router-link to="">关于</router-link></div>
+            <div><a href="https://github.com/NivoRozer/NvZwebsite">GitHub</a></div>
+            <!-- <div><router-link to="">个人介绍</router-link></div> -->
+            <!-- <div><router-link to="">其他</router-link></div> -->
+            <!-- <div><router-link to="">关于</router-link></div> -->
         </nav>
         <footer id="bottom-footer">
             <div>
