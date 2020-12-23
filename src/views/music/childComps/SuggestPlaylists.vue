@@ -65,7 +65,7 @@ export default {
             type: "全部",
             cat: [],
             curPage: 1,
-            limit: 50,
+            limit: 60,
             searchCount: "",
             searchResult: "",
         };

@@ -52,8 +52,31 @@
                 </div>
             </div>
             <div class="play-menu">
-                <div id="play-mode" @click="playMode">顺序</div>
+                <div id="play-mode" @click="playMode">
+                    <img
+                        src="~@/assets/img/music/loop.png"
+                        v-show="loopState === 0"
+                        alt=""
+                    />
+                    <img
+                        src="~@/assets/img/music/loop-1.png"
+                        v-show="loopState === 1"
+                        alt=""
+                    />
+                    <img
+                        src="~@/assets/img/music/random.png"
+                        v-show="loopState === 2"
+                        alt=""
+                    />
+                </div>
                 <div id="volume">
+                    <div
+                        class="mute"
+                        @click="mute"
+                        :class="muteState ? 'muted' : ''"
+                    >
+                        <img src="~@/assets/img/music/volume.png" alt="" />
+                    </div>
                     <progress-button
                         :progressData="volume"
                         @progressChange="volumeClick"
@@ -86,8 +109,10 @@ export default {
             time: 0,
             musicSize: 1,
             progressWidth: "",
+            muteState: false,
             volume: 0.5,
             audioState: 0,
+            loopState: 0,
             isShow: false,
             songInfo: {
                 url: "",
@@ -151,7 +176,11 @@ export default {
             audio.addEventListener("ended", () => {
                 console.log("ended");
                 //循环播放列表音乐
-                this.nextMusic();
+                if (this.loopState === 1) {
+                    audio.play();
+                } else {
+                    this.nextMusic();
+                }
             });
             audio.addEventListener("canplay", () => {
                 // 音频可以播放了
@@ -240,7 +269,13 @@ export default {
 
             audio.currentTime = clickTime;
         },
-        playMode() {},
+        playMode() {
+            if (this.loopState === 1) {
+                this.loopState = 0;
+            } else {
+                this.loopState += 1;
+            }
+        },
         lastMusic() {
             // if (this.index === 0) {
             //     this.index = this.musicList.length - 1;
@@ -279,6 +314,11 @@ export default {
             } else {
                 console.log("暂无音乐");
             }
+        },
+        mute() {
+            let audio = document.querySelector("audio");
+            this.muteState = !this.muteState;
+            audio.muted = this.muteState;
         },
         volumeClick(clickData) {
             let audio = document.querySelector("audio");
@@ -466,8 +506,57 @@ export default {
         }
     }
 }
+#play-mode {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    &:hover {
+        filter: drop-shadow(0 0 5px #fff8);
+    }
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
 #volume {
     width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+    transition: all 0.2s ease;
+    .mute {
+        position: relative;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
+        img {
+            height: 100%;
+            width: 100%;
+        }
+        &:hover {
+            filter: drop-shadow(0 0 5px #fff8);
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            height: 0px;
+            width: 2px;
+            border-radius: 2px;
+            left: 50%;
+            top: 50%;
+            background-color: #fff;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            transition: all 0.2s ease;
+        }
+    }
+    .muted {
+        &::before {
+            content: "";
+            height: 35px;
+        }
+    }
 }
 
 @keyframes wordsLoop {
