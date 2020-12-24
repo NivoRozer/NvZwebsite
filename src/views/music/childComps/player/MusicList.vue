@@ -94,7 +94,6 @@ export default {
             }
         },
         removeSong(index) {
-            console.log("remove" + index);
             this.$store.commit("removeMusic", index);
         },
         clearAll() {

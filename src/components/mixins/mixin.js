@@ -56,6 +56,21 @@ export const mixin = {
             });
             return uuid;
         },
+        shuffle(arr) {
+            // 洗牌算法
+            let n = arr.length,
+                shuffledArr = Object.assign([], arr),
+                random;
+            while (n != 0) {
+                // random = (Math.random() * n--) >>> 0; // 无符号右移位运算符向下取整
+                random = Math.floor(Math.random() * n--);
+                [shuffledArr[n], shuffledArr[random]] = [
+                    shuffledArr[random],
+                    shuffledArr[n],
+                ]; // ES6的结构赋值实现变量互换
+            }
+            return shuffledArr;
+        },
         pushMusic(item) {
             let song = Object.assign({}, item);
             song.uuid = this.generateUUID();
@@ -84,9 +99,10 @@ export const mixin = {
             }
         },
         playAllMusic(data) {
-            let musicLists = this.$store.state.music.musicLists
-            let stateIds = musicLists.map(i => i.id)
-            let dataIds = data.map(i => i.id)
+            let musicLists = this.$store.state.music.musicLists,
+                stateIds = musicLists.map(i => i.id),
+                dataIds = data.map(i => i.id);
+
             // 判断正在播放和即将播放列表是否一致
             if (JSON.stringify(stateIds) === JSON.stringify(dataIds)) {
                 this.$message('已在播放')
@@ -97,6 +113,12 @@ export const mixin = {
                     this.$store.commit("pushAllMusic", item);
                 }
                 this.$message('已添加到播放列表')
+
+                // 判断循环模式,如果是随机播放则触发一次洗牌
+                if (this.$store.state.music.loopState === 2) {
+                    this.$store.state.music.shuffledLists = this.shuffle(this.$store.state.music.musicLists);
+                    console.log(this.$store.state.music.shuffledLists.map((item) => item.name));
+                }
                 this.$store.commit("playMusic", this.$store.state.music.musicLists[0].id);
             }
         }

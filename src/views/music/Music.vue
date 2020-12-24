@@ -101,6 +101,7 @@ export default {
     created() {
         // this.musicInfo = this.musicLists[0];
         this.defaultMenuActive();
+        this.isMobile();
     },
     mounted() {},
     methods: {
@@ -114,6 +115,14 @@ export default {
         },
         defaultMenuActive() {
             this.defaultIndex = this.$route.path.split("/").reverse()[0];
+        },
+        isMobile() {
+            let flag = navigator.userAgent.match(
+                /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+            );
+            if (flag) {
+                this.$message("该项目样式目前仅支持PC端，请在电脑上查看",3000);
+            }
         },
         // 接收搜索框组件传出的事件和参数
         // search(keywords, type) {

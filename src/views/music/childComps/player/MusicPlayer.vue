@@ -52,20 +52,23 @@
                 </div>
             </div>
             <div class="play-menu">
-                <div id="play-mode" @click="playMode">
+                <div
+                    id="play-mode"
+                    @click="playMode($store.state.music.loopState)"
+                >
                     <img
                         src="~@/assets/img/music/loop.png"
-                        v-show="loopState === 0"
+                        v-show="$store.state.music.loopState === 0"
                         alt=""
                     />
                     <img
                         src="~@/assets/img/music/loop-1.png"
-                        v-show="loopState === 1"
+                        v-show="$store.state.music.loopState === 1"
                         alt=""
                     />
                     <img
                         src="~@/assets/img/music/random.png"
-                        v-show="loopState === 2"
+                        v-show="$store.state.music.loopState === 2"
                         alt=""
                     />
                 </div>
@@ -112,7 +115,6 @@ export default {
             muteState: false,
             volume: 0.5,
             audioState: 0,
-            loopState: 0,
             isShow: false,
             songInfo: {
                 url: "",
@@ -127,6 +129,10 @@ export default {
         this.volume = window.localStorage.volume
             ? window.localStorage.volume
             : this.volume;
+
+        this.$store.state.music.loopState = window.localStorage.loopState
+            ? parseInt(window.localStorage.loopState)
+            : this.$store.state.music.loopState;
     },
     mounted() {
         // 初始化并实时更新进度条
@@ -167,6 +173,7 @@ export default {
         initAudio() {
             // 监听播放状态修改播放按钮图标
             let audio = document.querySelector("audio");
+
             audio.addEventListener("playing", () => {
                 this.audioState = 1;
             });
@@ -176,7 +183,7 @@ export default {
             audio.addEventListener("ended", () => {
                 console.log("ended");
                 //循环播放列表音乐
-                if (this.loopState === 1) {
+                if (this.$store.state.music.loopState === 1) {
                     audio.play();
                 } else {
                     this.nextMusic();
@@ -269,13 +276,6 @@ export default {
 
             audio.currentTime = clickTime;
         },
-        playMode() {
-            if (this.loopState === 1) {
-                this.loopState = 0;
-            } else {
-                this.loopState += 1;
-            }
-        },
         lastMusic() {
             // if (this.index === 0) {
             //     this.index = this.musicList.length - 1;
@@ -315,6 +315,29 @@ export default {
                 console.log("暂无音乐");
             }
         },
+        playMode(loopState) {
+            let musicLists = this.$store.state.music.musicLists;
+
+            if (loopState === 2) {
+                loopState = 0;
+            } else {
+                loopState += 1;
+            }
+            this.$store.state.music.loopState = loopState;
+            window.localStorage.loopState = loopState;
+
+            // 判断状态是否为随机播放且播放列表不为空
+            if (loopState === 2 && musicLists.length) {
+                this.$store.state.music.shuffledLists = this.shuffle(
+                    musicLists
+                );
+                console.log(
+                    this.$store.state.music.shuffledLists.map(
+                        (item) => item.name
+                    )
+                );
+            }
+        },
         mute() {
             let audio = document.querySelector("audio");
             this.muteState = !this.muteState;
@@ -344,6 +367,25 @@ export default {
                 },
                 false
             );
+        },
+        shuffle(arr) {
+            let n = arr.length,
+                shuffledArr = Object.assign([], arr),
+                random;
+            // console.log(n, test, test * n--, (test * n) >>> 0);
+            while (n != 0) {
+                // random = (Math.random() * n--) >>> 0; // 无符号右移位运算符向下取整
+                random = Math.floor(Math.random() * n--);
+                [shuffledArr[n], shuffledArr[random]] = [
+                    shuffledArr[random],
+                    shuffledArr[n],
+                ]; // ES6的结构赋值实现变量互换
+
+                // console.log(random);
+                // console.log(test);
+                // console.log(arr.map((item) => item.name));
+            }
+            return shuffledArr;
         },
     },
 };

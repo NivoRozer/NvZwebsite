@@ -1,6 +1,6 @@
 import vue from 'vue'
 
-// 这里就是我们刚刚创建的那个静态组件
+// 静态组件
 import Message from "components/common/info/Message";
 
 // 返回一个 扩展实例构造器

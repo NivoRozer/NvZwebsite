@@ -13,7 +13,9 @@
         </header>
         <nav class="navlist">
             <div><router-link to="/portal">入口</router-link></div>
-            <div><a href="https://github.com/NivoRozer/NvZwebsite">GitHub</a></div>
+            <div>
+                <a href="https://github.com/NivoRozer/NvZwebsite">GitHub</a>
+            </div>
             <!-- <div><router-link to="">个人介绍</router-link></div> -->
             <!-- <div><router-link to="">其他</router-link></div> -->
             <!-- <div><router-link to="">关于</router-link></div> -->
@@ -21,14 +23,14 @@
         <footer id="bottom-footer">
             <div>
                 <hr />
-                <span
-                    >This is a simple personal learning website by NvZ.</span
-                >
+                <span>This is a simple personal learning website by NvZ.</span>
             </div>
             <div>
                 <hr />
                 <span>
-                    <a href="http://beian.miit.gov.cn/">赣ICP备2020011012号-1</a>
+                    <a href="http://beian.miit.gov.cn/"
+                        >赣ICP备2020011012号-1</a
+                    >
                 </span>
                 <span>Copyright © 2020-2020 NvZ</span>
             </div>
@@ -63,6 +65,7 @@ export default {
     background-size: cover;
     position: fixed;
     text-align: center;
+    font-family: "dengxian";
 }
 .header {
     width: 100vw;
@@ -108,7 +111,6 @@ export default {
     width: 100vw;
     margin: 0 0 20px 0;
     #title01 {
-        font-family: W03;
         font-size: 36px;
     }
     hr {
@@ -119,7 +121,6 @@ export default {
         border-image: linear-gradient(to right, #fff2, #ffff, #fff2) 1 8 1;
     }
     #title02 {
-        font-family: W03;
         font-size: 10px;
     }
 }
@@ -142,7 +143,6 @@ export default {
         border-radius: 20px;
         filter: drop-shadow(1px 1px 4px rgb(0, 0, 0, 0.3));
         a {
-            font-family: W03;
             display: block;
             width: 100%;
             line-height: 40px;
