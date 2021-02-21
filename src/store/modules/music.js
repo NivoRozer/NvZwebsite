@@ -61,39 +61,31 @@ export default {
         },
         lastMusic(state) {
             // 判断当前循环模式，如果是全部循环/单曲循环，取musicLists；如果是随机播放，取shuffledLists
-            let musicLists = state.loopState !== 2 ? state.musicLists : state.shuffledLists
+            let musicLists = state.loopState !== 2 ? state.musicLists : state.shuffledLists;
 
-            let isPlayIndex = musicLists.findIndex(item => {
+            let index = musicLists.findIndex(item => {
                 return item.uuid === state.isPlaying.uuid
-            })
-            let lastIndex = isPlayIndex;
-
-            if (isPlayIndex === 0) {
-                // this.musicInfo = this.musicList[isPlayIndex];
-                lastIndex = musicLists.length - 1;
+            });
+            if (index === 0) {
+                index = musicLists.length - 1;
             } else {
-                // this.musicInfo = this.musicList[isPlayIndex - 1];
-                lastIndex = isPlayIndex - 1
+                index -= 1
             }
-            state.isPlaying = musicLists[lastIndex];
+            state.isPlaying = musicLists[index];
         },
         nextMusic(state) {
             // 判断当前循环模式，如果是全部循环/单曲循环，取musicLists；如果是随机播放，取shuffledLists
-            let musicLists = state.loopState !== 2 ? state.musicLists : state.shuffledLists
+            let musicLists = state.loopState !== 2 ? state.musicLists : state.shuffledLists;
 
-            let isPlayIndex = musicLists.findIndex(item => {
+            let index = musicLists.findIndex(item => {
                 return item.uuid === state.isPlaying.uuid
-            })
-            let nextIndex = isPlayIndex
-
-            if (isPlayIndex === musicLists.length - 1) {
-                // this.musicInfo = this.musicList[isPlayIndex];
-                nextIndex = 0;
+            });
+            if (index === musicLists.length - 1) {
+                index = 0;
             } else {
-                // this.musicInfo = this.musicList[isPlayIndex - 1];
-                nextIndex = isPlayIndex + 1;
+                index += 1;
             }
-            state.isPlaying = musicLists[nextIndex];
+            state.isPlaying = musicLists[index];
         }
     },
     actions: {

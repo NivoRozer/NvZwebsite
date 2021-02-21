@@ -8,7 +8,7 @@ export function request(config) {
     const instance = axios.create({
         // baseURL: 'http://localhost:3000',
         // baseURL: 'http://42.192.91.181:3000',
-        baseURL: 'http://nvz.xiuuhui.com:3000',
+        baseURL: 'http://nvz.xiuuhui.com/api',
         timeout: 10000
     })
     //2.axios的拦截器

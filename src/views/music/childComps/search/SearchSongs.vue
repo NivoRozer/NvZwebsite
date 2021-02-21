@@ -101,7 +101,7 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             line-height: 40px;
-            text-shadow: 0 0 4px #0008;
+            text-shadow: 0 0 2px #0008;
         }
 
         .song-list-name {

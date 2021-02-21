@@ -1,6 +1,9 @@
 const path = require('path')
 
 module.exports = {
+    // devServer: {
+    //     proxy: "http://42.192.91.181:3000",
+    // },
     configureWebpack: {
         externals: {
             "echarts": "echarts",

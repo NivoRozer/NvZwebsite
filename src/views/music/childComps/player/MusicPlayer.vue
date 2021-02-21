@@ -233,9 +233,6 @@ export default {
                 audio.pause();
                 this.audioState = 0;
 
-                // console.log(this.audioState);
-                // console.log("pause" + audio.paused);
-
                 audio.src = "";
                 this.songInfo = {};
             }
@@ -277,13 +274,6 @@ export default {
             audio.currentTime = clickTime;
         },
         lastMusic() {
-            // if (this.index === 0) {
-            //     this.index = this.musicList.length - 1;
-            //     this.musicInfo = this.musicList[this.index];
-            // } else {
-            //     this.musicInfo = this.musicList[this.index - 1];
-            //     this.index--;
-            // }
             let uuid = this.isPlaying.uuid;
             let musicListLength = this.$store.state.music.musicLists.length;
             if (uuid && musicListLength !== 1) {
@@ -298,11 +288,9 @@ export default {
             if (audio.paused) {
                 audio.play();
                 console.log("播放");
-                // this.audioState = 1;
             } else {
                 audio.pause();
                 console.log("暂停");
-                // this.audioState = 0;
             }
         },
         nextMusic() {
@@ -352,11 +340,6 @@ export default {
         },
         showList() {
             this.isShow = !this.isShow;
-            // if (this.isShow) {
-            //     console.log("显示");
-            // } else {
-            //     console.log("隐藏");
-            // }
         },
         listHide() {
             // 监听body点击事件，点击播放列表以外的部分时触发隐藏

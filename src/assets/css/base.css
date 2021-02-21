@@ -16,8 +16,8 @@
 }
 
 body {
-    font-family: "Helvetica Neue", "PingFang SC", "华文细黑", "Microsoft YaHei", "微软雅黑", Arial, Helvetica,
-        sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, "Microsoft YaHei", "华文细黑", Arial,
+        Helvetica, sans-serif;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     color: var(--color-text);

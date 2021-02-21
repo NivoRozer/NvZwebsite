@@ -7,7 +7,7 @@ import store from './store'
 import 'normalize.css'
 import msg from 'assets/js/msg.js'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false,
 
 Vue.prototype.$echarts = echarts;
 
